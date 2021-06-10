@@ -1,0 +1,13 @@
+#run image for nginx
+docker pull nginx
+docker images
+docker run -d -p 80:80 nginx
+docker ps
+docker stop 
+
+# run nginx image with volume
+docker run -d -p 80:80 --name web_ng -v /root/html/:/usr/share/nginx/html nginx
+docker stop web_ng
+
+# build ubuntu image with nginx using Dockerfile
+docker build -t=varad .
