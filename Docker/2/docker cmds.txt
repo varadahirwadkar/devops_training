@@ -1,0 +1,159 @@
+# link two containers and ping
+
+PS C:\WINDOWS\system32> docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox
+b71f96345d44: Pull complete
+Digest: sha256:930490f97e5b921535c153e0e7110d251134cc4b72bbb8133c6a5065cc68580d
+Status: Downloaded newer image for busybox:latest
+docker.io/library/busybox:latest
+
+PS C:\WINDOWS\system32> docker images
+REPOSITORY                TAG       IMAGE ID       CREATED        SIZE
+varadahirwadkar/web       latest    e675feab524d   19 hours ago   161MB
+varadahirwadkar/apache2   latest    39256acdc65d   43 hours ago   215MB
+docker101tutorial         latest    5147f11514ae   44 hours ago   28MB
+busybox                   latest    69593048aa3a   3 days ago     1.24MB
+alpine/git                latest    b8f176fa3f0d   2 weeks ago    25.1MB
+ubuntu                    latest    7e0aa2d69a15   6 weeks ago    72.7MB
+hello-world               latest    d1165f221234   3 months ago   13.3kB
+
+PS C:\WINDOWS\system32> docker run --name c1 -it busybox
+/ #
+/ #
+
+PS C:\WINDOWS\system32> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED          STATUS          PORTS     NAMES
+b92f884d92de   busybox   "sh"      14 seconds ago   Up 11 seconds             c1
+
+PS C:\WINDOWS\system32> docker run --name c2 -it --link c1:mybusybox busybox
+/ # ping c1
+PING c1 (172.17.0.2): 56 data bytes
+64 bytes from 172.17.0.2: seq=0 ttl=64 time=0.280 ms
+64 bytes from 172.17.0.2: seq=1 ttl=64 time=0.229 ms
+64 bytes from 172.17.0.2: seq=2 ttl=64 time=0.135 ms
+64 bytes from 172.17.0.2: seq=3 ttl=64 time=0.283 ms
+64 bytes from 172.17.0.2: seq=4 ttl=64 time=0.136 ms
+64 bytes from 172.17.0.2: seq=5 ttl=64 time=0.288 ms
+64 bytes from 172.17.0.2: seq=6 ttl=64 time=0.212 ms
+64 bytes from 172.17.0.2: seq=7 ttl=64 time=0.279 ms
+64 bytes from 172.17.0.2: seq=8 ttl=64 time=0.210 ms
+64 bytes from 172.17.0.2: seq=9 ttl=64 time=0.281 ms
+64 bytes from 172.17.0.2: seq=10 ttl=64 time=0.123 ms
+64 bytes from 172.17.0.2: seq=11 ttl=64 time=0.325 ms
+^C
+--- c1 ping statistics ---
+12 packets transmitted, 12 packets received, 0% packet loss
+round-trip min/avg/max = 0.123/0.231/0.325 ms
+/ # exit
+
+
+#Created two images wordpress and mysql then connected them
+ docker run --name mydb -d -e MYSQL_ROOT_PASSWORD=toor123 mysql:5
+ PS C:\WINDOWS\system32> docker run --name mydb -d -e MYSQL_ROOT_PASSWORD=****** mysql:5
+Unable to find image 'mysql:5' locally
+5: Pulling from library/mysql
+69692152171a: Pull complete
+1651b0be3df3: Pull complete
+951da7386bc8: Pull complete
+0f86c95aa242: Pull complete
+37ba2d8bd4fe: Pull complete
+6d278bb05e94: Pull complete
+497efbd93a3e: Pull complete
+a023ae82eef5: Pull complete
+e76c35f20ee7: Pull complete
+e887524d2ef9: Pull complete
+ccb65627e1c3: Pull complete
+Digest: sha256:a682e3c78fc5bd941e9db080b4796c75f69a28a8cad65677c23f7a9f18ba21fa
+Status: Downloaded newer image for mysql:5
+972a06014449fd22d1f33b2c9af8ef7edaa2060227a21e4ce3a7c89e21896219
+
+PS C:\WINDOWS\system32> docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS         PORTS                 NAMES
+972a06014449   mysql:5   "docker-entrypoint.s…"   16 seconds ago   Up 4 seconds   3306/tcp, 33060/tcp   mydb
+
+PS C:\WINDOWS\system32> docker run --name mywordpress -d -p 8888:80 --link mydb:mysql wordpress
+Unable to find image 'wordpress:latest' locally
+latest: Pulling from library/wordpress
+69692152171a: Already exists
+2040822db325: Pull complete
+9b4ca5ae9dfa: Pull complete
+ac1fe7c6d966: Pull complete
+5b26fc9ce030: Pull complete
+3492f4769444: Pull complete
+1dec05775a74: Pull complete
+77107a42338e: Pull complete
+f58e4093c52a: Pull complete
+d32715f578d3: Pull complete
+7a73fb2558ce: Pull complete
+667b573fcff7: Pull complete
+75e2da936ffe: Pull complete
+759622df3a7b: Pull complete
+c2f98ef02756: Pull complete
+50e11300b0a6: Pull complete
+de37513870b9: Pull complete
+f25501789abc: Pull complete
+0cf8e3442952: Pull complete
+d45ce270a7e6: Pull complete
+534cdc5a6ea6: Pull complete
+Digest: sha256:e9da0d6c867249f364cd2292ea0dd01d7281e8dfbcc3e4b39b823f9a790b237b
+Status: Downloaded newer image for wordpress:latest
+aedc73fe18647365042db6a3ddc9f7be19a6b4ca6375965689815a390d0b6032
+
+PS C:\WINDOWS\system32> docker ps
+CONTAINER ID   IMAGE       COMMAND                  CREATED          STATUS          PORTS                  NAMES
+aedc73fe1864   wordpress   "docker-entrypoint.s…"   19 seconds ago   Up 13 seconds   0.0.0.0:8888->80/tcp   mywordpress
+972a06014449   mysql:5     "docker-entrypoint.s…"   3 minutes ago    Up 3 minutes    3306/tcp, 33060/tcp    mydb
+
+PS C:\WINDOWS\system32> docker inspect
+
+PS C:\WINDOWS\system32> docker exec mydb env
+
+root@972a06014449:/# mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4
+Server version: 5.7.34 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+mysql> create database wordpressdb;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| wordpressdb        |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> use wordpressdb;
+Database changed
+mysql> create table product (id int, name varchar(18))
+    -> ;
+Query OK, 0 rows affected (0.42 sec)
+
+mysql> select * from product;
+Empty set (0.01 sec)

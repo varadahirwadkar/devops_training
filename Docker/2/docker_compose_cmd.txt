@@ -1,0 +1,13 @@
+# to create docker container with compose
+
+PS C:\Users\Varad\Desktop> docker-compose up -d
+Creating network "desktop_default" with the default driver
+Creating desktop_mydb1_1 ... done
+Creating desktop_mywordpress1_1 ... done
+
+PS C:\Users\Varad\Desktop> docker ps
+CONTAINER ID   IMAGE       COMMAND                  CREATED          STATUS          PORTS                  NAMES
+4f2f27eb3fcc   wordpress   "docker-entrypoint.s…"   13 seconds ago   Up 9 seconds    0.0.0.0:8888->80/tcp   desktop_mywordpress1_1
+0897b662e2f0   mysql:5     "docker-entrypoint.s…"   17 seconds ago   Up 13 seconds   3306/tcp, 33060/tcp    desktop_mydb1_1
+
+PS C:\Users\Varad\Desktop>
