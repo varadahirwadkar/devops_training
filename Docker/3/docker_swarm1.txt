@@ -1,0 +1,204 @@
+
+
+varad_ahirwadkar@ARPGL004752 MINGW64 ~/Downloads
+$ ssh -i "docker.pem" ec2-user@ec2-65-2-71-18.ap-south-1.compute.amazonaws.com
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux 2 AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-2/
+
+
+[ec2-user@ip-172-31-7-117 ~]$ sudo yum update -y
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+amzn2-core                                               | 3.7 kB     00:00
+No packages marked for update
+
+[ec2-user@ip-172-31-7-117 ~]$ sudo yum install docker -y
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+Resolving Dependencies
+--> Running transaction check
+---> Package docker.x86_64 0:20.10.4-1.amzn2 will be installed
+--> Processing Dependency: runc >= 1.0.0 for package: docker-20.10.4-1.amzn2.x86_64
+--> Processing Dependency: libcgroup >= 0.40.rc1-5.15 for package: docker-20.10.4-1.amzn2.x86_64
+--> Processing Dependency: containerd >= 1.3.2 for package: docker-20.10.4-1.amzn2.x86_64
+--> Processing Dependency: pigz for package: docker-20.10.4-1.amzn2.x86_64
+--> Running transaction check
+---> Package containerd.x86_64 0:1.4.4-1.amzn2 will be installed
+---> Package libcgroup.x86_64 0:0.41-21.amzn2 will be installed
+---> Package pigz.x86_64 0:2.3.4-1.amzn2.0.1 will be installed
+---> Package runc.x86_64 0:1.0.0-0.3.20210225.git12644e6.amzn2 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+================================================================================
+ Package    Arch   Version                              Repository         Size
+================================================================================
+Installing:
+ docker     x86_64 20.10.4-1.amzn2                      amzn2extra-docker  32 M
+Installing for dependencies:
+ containerd x86_64 1.4.4-1.amzn2                        amzn2extra-docker  24 M
+ libcgroup  x86_64 0.41-21.amzn2                        amzn2-core         66 k
+ pigz       x86_64 2.3.4-1.amzn2.0.1                    amzn2-core         81 k
+ runc       x86_64 1.0.0-0.3.20210225.git12644e6.amzn2  amzn2extra-docker 3.2 M
+
+Transaction Summary
+================================================================================
+Install  1 Package (+4 Dependent packages)
+
+Total download size: 59 M
+Installed size: 243 M
+Downloading packages:
+(1/5): libcgroup-0.41-21.amzn2.x86_64.rpm                  |  66 kB   00:00
+(2/5): pigz-2.3.4-1.amzn2.0.1.x86_64.rpm                   |  81 kB   00:00
+(3/5): containerd-1.4.4-1.amzn2.x86_64.rpm                 |  24 MB   00:00
+(4/5): docker-20.10.4-1.amzn2.x86_64.rpm                   |  32 MB   00:00
+(5/5): runc-1.0.0-0.3.20210225.git12644e6.amzn2.x86_64.rpm | 3.2 MB   00:00
+--------------------------------------------------------------------------------
+Total                                               64 MB/s |  59 MB  00:00
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : runc-1.0.0-0.3.20210225.git12644e6.amzn2.x86_64              1/5
+  Installing : containerd-1.4.4-1.amzn2.x86_64                              2/5
+  Installing : libcgroup-0.41-21.amzn2.x86_64                               3/5
+  Installing : pigz-2.3.4-1.amzn2.0.1.x86_64                                4/5
+  Installing : docker-20.10.4-1.amzn2.x86_64                                5/5
+  Verifying  : containerd-1.4.4-1.amzn2.x86_64                              1/5
+  Verifying  : docker-20.10.4-1.amzn2.x86_64                                2/5
+  Verifying  : pigz-2.3.4-1.amzn2.0.1.x86_64                                3/5
+  Verifying  : runc-1.0.0-0.3.20210225.git12644e6.amzn2.x86_64              4/5
+  Verifying  : libcgroup-0.41-21.amzn2.x86_64                               5/5
+
+Installed:
+  docker.x86_64 0:20.10.4-1.amzn2
+
+Dependency Installed:
+  containerd.x86_64 0:1.4.4-1.amzn2
+  libcgroup.x86_64 0:0.41-21.amzn2
+  pigz.x86_64 0:2.3.4-1.amzn2.0.1
+  runc.x86_64 0:1.0.0-0.3.20210225.git12644e6.amzn2
+
+Complete!
+[ec2-user@ip-172-31-7-117 ~]$ docker --version
+
+[ec2-user@ip-172-31-7-117 ~]$ sudo service docker start
+Redirecting to /bin/systemctl start docker.service
+
+[ec2-user@ip-172-31-7-117 ~]$ docker info
+Client:
+ Context:    default
+ Debug Mode: false
+
+Server:
+ERROR: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/info": dial unix /var/run/docker.sock: connect: permission denied
+errors pretty printing info
+
+[ec2-user@ip-172-31-7-117 ~]$ sudo docker info
+Client:
+ Context:    default
+ Debug Mode: false
+
+Server:
+ Containers: 0
+  Running: 0
+  Paused: 0
+  Stopped: 0
+ Images: 0
+ Server Version: 20.10.4
+ Storage Driver: overlay2
+  Backing Filesystem: xfs
+  Supports d_type: true
+  Native Overlay Diff: true
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 1
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 io.containerd.runtime.v1.linux runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 05f951a3781f4f2c1911b05e61c160e9c30eaa8e
+ runc version: 12644e614e25b05da6fd08a38ffa0cfe1903fdec
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: default
+ Kernel Version: 4.14.232-176.381.amzn2.x86_64
+ Operating System: Amazon Linux 2
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 1
+ Total Memory: 983.3MiB
+ Name: ip-172-31-7-117.ap-south-1.compute.internal
+ ID: VUXA:7FNH:N66T:6KED:PPA3:GQ2K:4W2E:QMT5:DF6P:AH5C:BZUI:VKTT
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Registry: https://index.docker.io/v1/
+ Labels:
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Live Restore Enabled: false
+
+[ec2-user@ip-172-31-7-117 ~]$ sudo usermod -a -G docker ec2-user
+[ec2-user@ip-172-31-7-117 ~]$ docker swarm init --advertise-addr 172.31.7.117   Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post "http://%2Fvar%2Frun%2Fdocker.sock/v1.24/swarm/init": dial unix /var/run/docker.sock: connect: permission denied
+[ec2-user@ip-172-31-7-117 ~]$ sudo docker swarm init --advertise-addr 172.31.7.117
+Swarm initialized: current node (pg87tyzmasucq7gdjewh7j0f3) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-1cgl4yhylw3n5wiks0q12h95gmcle4v8i4uwaf88vwyi3gznj9-2p6nmytoz33hduninwb2wtj4k 172.31.7.117:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+[ec2-user@ip-172-31-7-117 ~]$ sudo su
+
+[root@ip-172-31-7-117 ec2-user]# docker node ls
+ID                            HOSTNAME                                       STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+pg87tyzmasucq7gdjewh7j0f3 *   ip-172-31-7-117.ap-south-1.compute.internal    Ready     Active         Leader           20.10.4
+oep198ro2zi41l0cs1vhhgl38     ip-172-31-11-187.ap-south-1.compute.internal   Ready     Active                          20.10.4
+54uek0ifx1wzv1m3ljd3ubf42     ip-172-31-15-72.ap-south-1.compute.internal    Ready     Active                          20.10.4
+[root@ip-172-31-7-117 ec2-user]# docker service create --name "JenkinsServer" -p 8080:8080 jenkins/jenkins
+1lczd1lf82bd0jzdsbv0xcom7
+overall progress: 0 out of 1 tasks
+overall progress: 1 out of 1 tasks
+1/1: running
+verify: Service converged
+[root@ip-172-31-7-117 ec2-user]#
+[root@ip-172-31-7-117 ec2-user]# docker service ls
+ID             NAME            MODE         REPLICAS   IMAGE                    PORTS
+1lczd1lf82bd   JenkinsServer   replicated   1/1        jenkins/jenkins:latest   *:8080->8080/tcp
+
+[root@ip-172-31-7-117 ec2-user]# docker service ps JeniknsServer
+no such service: JeniknsServer
+
+[root@ip-172-31-7-117 ec2-user]# docker service ps JenkinsServer
+ID             NAME              IMAGE                    NODE                                          DESIRED STATE   CURRENT STATE           ERROR     PORTS
+efv4wk802oic   JenkinsServer.1   jenkins/jenkins:latest   ip-172-31-7-117.ap-south-1.compute.internal   Running         Running 2 minutes ago
+
+[root@ip-172-31-7-117 ec2-user]#  docker node update --availability drain ip-172-31-7-117.ap-south-1.compute.internal
+ip-172-31-7-117.ap-south-1.compute.internal
+
+[root@ip-172-31-7-117 ec2-user]# docker service ps JenkinsServer
+ID             NAME                  IMAGE                    NODE                                           DESIRED STATE   CURRENT STATE             ERROR     PORTS
+bebhtam10y7g   JenkinsServer.1       jenkins/jenkins:latest   ip-172-31-11-187.ap-south-1.compute.internal   Running         Running 35 seconds ago
+efv4wk802oic    \_ JenkinsServer.1   jenkins/jenkins:latest   ip-172-31-7-117.ap-south-1.compute.internal    Shutdown        Shutdown 53 seconds ago
+
+[root@ip-172-31-7-117 ec2-user]# docker service rm JenkinsServer
+JenkinsServer
+
+[root@ip-172-31-7-117 ec2-user]# docker service ls
+ID        NAME      MODE      REPLICAS   IMAGE     PORTS
+
+[root@ip-172-31-7-117 ec2-user]# Connection to ec2-65-2-71-18.ap-south-1.compute.amazonaws.com closed by remote host.
+Connection to ec2-65-2-71-18.ap-south-1.compute.amazonaws.com closed.
+
+varad_ahirwadkar@ARPGL004752 MINGW64 ~/Downloads
+$

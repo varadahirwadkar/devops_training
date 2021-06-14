@@ -1,0 +1,60 @@
+PS C:\Users\Varad> docker-machine create --driver amazonec2 --amazonec2-instance-type "t2.micro" aws-docker-mngr
+Running pre-create checks...
+Creating machine...
+(aws-docker-mngr) Launching instance...
+Waiting for machine to be running, this may take a few minutes...
+Detecting operating system of created instance...
+Waiting for SSH to be available...
+Detecting the provisioner...
+Provisioning with ubuntu(systemd)...
+Installing Docker...
+Copying certs to the local machine directory...
+Copying certs to the remote machine...
+Setting Docker configuration on the remote daemon...
+Checking connection to Docker...
+Docker is up and running!
+To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: C:\Users\Varad\bin\docker-machine.exe env aws-docker-mngr
+
+PS C:\Users\Varad> docker-machine ls
+NAME              ACTIVE   DRIVER       STATE     URL                       SWARM   DOCKER     ERRORS
+aws-docker-mngr   -        amazonec2    Running   tcp://3.237.87.201:2376           v20.10.7
+node              -        virtualbox   Stopped                                     Unknown
+worker1           -        virtualbox   Stopped                                     Unknown
+worker2           -        virtualbox   Stopped                                     Unknown
+
+PS C:\Users\Varad> docker-machine ssh aws-docker-mngr
+Welcome to Ubuntu 16.04.4 LTS (GNU/Linux 4.4.0-1052-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+228 packages can be updated.
+156 updates are security updates.
+
+New release '18.04.5 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+ubuntu@aws-docker-mngr:~$ docker version
+Client: Docker Engine - Community
+ Version:           20.10.7
+ API version:       1.41
+ Go version:        go1.13.15
+ Git commit:        f0df350
+ Built:             Wed Jun  2 11:56:47 2021
+ OS/Arch:           linux/amd64
+ Context:           default
+ Experimental:      true
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get http://%2Fvar%2Frun%2Fdocker.sock/v1.24/version: dial unix /var/run/docker.sock: connect: permission denied
+
+ubuntu@aws-docker-mngr:~$ logout
+exit status 1
+PS C:\Users\Varad> docker-machine rm aws-docker-mngr
+About to remove aws-docker-mngr
+WARNING: This action will delete both local reference and remote instance.
+Are you sure? (y/n): y
+Successfully removed aws-docker-mngr
+PS C:\Users\Varad>

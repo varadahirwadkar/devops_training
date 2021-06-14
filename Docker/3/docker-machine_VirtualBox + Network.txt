@@ -1,0 +1,240 @@
+#Creating Docker HOST with docker-machine
+
+PS C:\Users\Varad> docker-machine ls
+NAME   ACTIVE   DRIVER   STATE   URL   SWARM   DOCKER   ERRORS
+
+PS C:\Users\Varad> docker-machine create --driver virtualbox node
+Creating CA: C:\Users\Varad\.docker\machine\certs\ca.pem
+Creating client certificate: C:\Users\Varad\.docker\machine\certs\cert.pem
+Running pre-create checks...
+(node) Image cache directory does not exist, creating it at C:\Users\Varad\.docker\machine\cache...
+(node) No default Boot2Docker ISO found locally, downloading the latest release...
+(node) Latest release for github.com/boot2docker/boot2docker is v19.03.12
+(node) Downloading C:\Users\Varad\.docker\machine\cache\boot2docker.iso from https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso...
+(node) 0%....10%....20%....30%....40%....50%....60%....70%....80%....90%....100%
+Creating machine...
+(node) Copying C:\Users\Varad\.docker\machine\cache\boot2docker.iso to C:\Users\Varad\.docker\machine\machines\node\boot2docker.iso...
+(node) Creating VirtualBox VM...
+(node) Creating SSH key...
+(node) Starting the VM...
+(node) Check network to re-create if needed...
+(node) Windows might ask for the permission to create a network adapter. Sometimes, such confirmation window is minimized in the taskbar.
+(node) Found a new host-only adapter: "VirtualBox Host-Only Ethernet Adapter #2"
+(node) Windows might ask for the permission to configure a network adapter. Sometimes, such confirmation window is minimized in the taskbar.
+(node) Windows might ask for the permission to configure a dhcp server. Sometimes, such confirmation window is minimized in the taskbar.
+(node) Waiting for an IP...
+Waiting for machine to be running, this may take a few minutes...
+Detecting operating system of created instance...
+Waiting for SSH to be available...
+Detecting the provisioner...
+Provisioning with boot2docker...
+Copying certs to the local machine directory...
+Copying certs to the remote machine...
+Setting Docker configuration on the remote daemon...
+Checking connection to Docker...
+Docker is up and running!
+To see how to connect your Docker Client to the Docker Engine running on this virtual machine, run: C:\Users\Varad\bin\docker-machine.exe env node
+
+PS C:\Users\Varad> docker-machine ls
+NAME   ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER      ERRORS
+node   -        virtualbox   Running   tcp://192.168.99.100:2376           v19.03.12
+
+PS C:\Users\Varad> C:\Users\Varad\bin\docker-machine.exe env node
+$Env:DOCKER_TLS_VERIFY = "1"
+$Env:DOCKER_HOST = "tcp://192.168.99.100:2376"
+$Env:DOCKER_CERT_PATH = "C:\Users\Varad\.docker\machine\machines\node"
+$Env:DOCKER_MACHINE_NAME = "node"
+$Env:COMPOSE_CONVERT_WINDOWS_PATHS = "true"
+# Run this command to configure your shell:
+# & "C:\Users\Varad\bin\docker-machine.exe" env node | Invoke-Expression
+
+PS C:\Users\Varad> docker-machine stop node
+Stopping "node"...
+Machine "node" was stopped.
+
+PS C:\Users\Varad> docker-machine start node
+Starting "node"...
+(node) Check network to re-create if needed...
+(node) Windows might ask for the permission to configure a dhcp server. Sometimes, such confirmation window is minimized in the taskbar.
+(node) Waiting for an IP...
+Machine "node" was started.
+Waiting for SSH to be available...
+Detecting the provisioner...
+Started machines may have new IP addresses. You may need to re-run the `docker-machine env` command.
+
+PS C:\Users\Varad>
+PS C:\Users\Varad> docker-machine ssh node
+   ( '>')   ( '>')
+  /) TC (\   Core is distributed with ABSOLUTELY NO WARRANTY.
+ (/-_--_-\)           www.tinycorelinux.net
+
+docker@node:~$ ifconfig
+docker0   Link encap:Ethernet  HWaddr 02:42:A1:54:3A:F6
+          inet addr:172.17.0.1  Bcast:172.17.255.255  Mask:255.255.0.0
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+eth0      Link encap:Ethernet  HWaddr 08:00:27:55:15:44
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe55:1544/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:287 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:187 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:39917 (38.9 KiB)  TX bytes:38474 (37.5 KiB)
+
+eth1      Link encap:Ethernet  HWaddr 08:00:27:13:A2:2C
+          inet addr:192.168.99.100  Bcast:192.168.99.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe13:a22c/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:2 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:11 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:1180 (1.1 KiB)  TX bytes:1415 (1.3 KiB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+docker@node:~$ docker run --name alpine1-node alpine
+Unable to find image 'alpine:latest' locally
+latest: Pulling from library/alpine
+540db60ca938: Pull complete
+Digest: sha256:69e70a79f2d41ab5d637de98c1e0b055206ba40a8145e7bddb55ccc04e13cf8f
+Status: Downloaded newer image for alpine:latest
+
+docker@node:~$ docker network create test --driver bridge
+1d7bd3a09e5fa4b1772018136cb792fd1ec7ea0bc50d7f9b61f42a2b817d3832
+
+docker@node:~$ docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+2f576a78b59f        bridge              bridge              local
+55c447c32ff2        host                host                local
+949435c9a764        none                null                local
+1d7bd3a09e5f        test                bridge              local
+
+docker@node:~$  ifconfig
+br-1d7bd3a09e5f Link encap:Ethernet  HWaddr 02:42:0B:11:7B:40
+          inet addr:172.18.0.1  Bcast:172.18.255.255  Mask:255.255.0.0
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+docker0   Link encap:Ethernet  HWaddr 02:42:A1:54:3A:F6
+          inet addr:172.17.0.1  Bcast:172.17.255.255  Mask:255.255.0.0
+          inet6 addr: fe80::42:a1ff:fe54:3af6/64 Scope:Link
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:2 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:176 (176.0 B)
+
+eth0      Link encap:Ethernet  HWaddr 08:00:27:55:15:44
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe55:1544/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:3710 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:1564 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:3123930 (2.9 MiB)  TX bytes:175481 (171.3 KiB)
+
+eth1      Link encap:Ethernet  HWaddr 08:00:27:13:A2:2C
+          inet addr:192.168.99.100  Bcast:192.168.99.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe13:a22c/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:4 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:17 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:1830 (1.7 KiB)  TX bytes:2097 (2.0 KiB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+docker@node:~$ docker run --name alpine2-node --network test alpine
+docker@node:~$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+
+docker@node:~$ docker rm alpine2-node
+alpine2-node
+docker@node:~$ docker run --name alpine2-node -it --network test alpine
+
+docker@node:~$ ifconfig
+br-1d7bd3a09e5f Link encap:Ethernet  HWaddr 02:42:0B:11:7B:40
+          inet addr:172.18.0.1  Bcast:172.18.255.255  Mask:255.255.0.0
+          inet6 addr: fe80::42:bff:fe11:7b40/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:5 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:446 (446.0 B)
+
+docker0   Link encap:Ethernet  HWaddr 02:42:A1:54:3A:F6
+          inet addr:172.17.0.1  Bcast:172.17.255.255  Mask:255.255.0.0
+          inet6 addr: fe80::42:a1ff:fe54:3af6/64 Scope:Link
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:2 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:176 (176.0 B)
+
+eth0      Link encap:Ethernet  HWaddr 08:00:27:55:15:44
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe55:1544/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:4689 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:2093 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:3220571 (3.0 MiB)  TX bytes:249910 (244.0 KiB)
+
+eth1      Link encap:Ethernet  HWaddr 08:00:27:13:A2:2C
+          inet addr:192.168.99.100  Bcast:192.168.99.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe13:a22c/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:6 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:19 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:2480 (2.4 KiB)  TX bytes:2499 (2.4 KiB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+veth1e55e86 Link encap:Ethernet  HWaddr 56:12:63:0A:14:3D
+          inet6 addr: fe80::5412:63ff:fe0a:143d/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:10 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:836 (836.0 B)
+
+docker@node:~$ docker stop alpine2-node
+alpine2-node
+
+docker@node:~$ exit
+logout
+
+PS C:\Users\Varad> docker-machine stop node
+Stopping "node"...
+Machine "node" was stopped.
+PS C:\Users\Varad>

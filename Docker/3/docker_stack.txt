@@ -1,0 +1,37 @@
+[root@ip-172-31-15-72 ec2-user]# docker node ls
+ID                            HOSTNAME                                       STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+6wu26aepqshxu4r8zrg8itval     ip-172-31-11-187.ap-south-1.compute.internal   Ready     Active                          20.10.4
+wad7q7rd8uohxah6ryurga35v *   ip-172-31-15-72.ap-south-1.compute.internal    Ready     Active         Leader           20.10.4
+lc7341u5wgm6sy4op3hosb63q     ip-172-31-37-234.ap-south-1.compute.internal   Ready     Active                          20.10.4
+
+[root@ip-172-31-15-72 ec2-user]# docker stack deploy -c stack_app.yml wordpress
+Creating network wordpress_default
+Creating service wordpress_mywordpress
+Creating service wordpress_mydb
+
+[root@ip-172-31-15-72 ec2-user]# docker stack ls
+NAME        SERVICES   ORCHESTRATOR
+wordpress   2          Swarm
+
+[root@ip-172-31-15-72 ec2-user]# docker service ls
+ID             NAME                    MODE         REPLICAS   IMAGE              PORTS
+vztgp9dcaff1   wordpress_mydb          replicated   1/1        mysql:5            
+vjzsog1q9uou   wordpress_mywordpress   replicated   3/3        wordpress:latest   *:8888->80/tcp
+
+[root@ip-172-31-15-72 ec2-user]# docker stack ps wordpress
+ID             NAME                      IMAGE              NODE                                           DESIRED STATE   CURRENT STATE
+            ERROR     PORTS
+1ahyjcapmdrz   wordpress_mydb.1          mysql:5            ip-172-31-15-72.ap-south-1.compute.internal    Running         Running 41 se
+conds ago             
+qhzwga9pjhw2   wordpress_mywordpress.1   wordpress:latest   ip-172-31-15-72.ap-south-1.compute.internal    Running         Running 38 se
+conds ago             
+kfotunxxm521   wordpress_mywordpress.2   wordpress:latest   ip-172-31-11-187.ap-south-1.compute.internal   Running         Running 49 se
+conds ago             
+m5p9vcp7n3zo   wordpress_mywordpress.3   wordpress:latest   ip-172-31-37-234.ap-south-1.compute.internal   Running         Running 49 se
+conds ago             
+
+
+[root@ip-172-31-15-72 ec2-user]# docker stack rm wordpress
+Removing service wordpress_mydb
+Removing service wordpress_mywordpress
+Removing network wordpress_default

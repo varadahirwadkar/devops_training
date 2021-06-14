@@ -1,0 +1,98 @@
+
+[root@ip-172-31-7-117 ec2-user]# docker node ls
+ID                            HOSTNAME                                       STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+pg87tyzmasucq7gdjewh7j0f3 *   ip-172-31-7-117.ap-south-1.compute.internal    Ready     Active         Leader           20.10.4
+oep198ro2zi41l0cs1vhhgl38     ip-172-31-11-187.ap-south-1.compute.internal   Ready     Active                          20.10.4
+54uek0ifx1wzv1m3ljd3ubf42     ip-172-31-15-72.ap-south-1.compute.internal    Ready     Active                          20.10.4
+
+[root@ip-172-31-7-117 ec2-user]# docker service ls
+ID        NAME      MODE      REPLICAS   IMAGE     PORTS      
+
+[root@ip-172-31-7-117 ec2-user]# sudo docker service create --name "JenkinsServer" --replicas=2 -p 8080:8080 jenkins/jenkins
+2xy1fycc3d3kk3xiezie44ao3
+overall progress: 2 out of 2 tasks 
+1/2: running   [==================================================>] 
+2/2: running   [==================================================>] 
+verify: Service converged 
+
+[root@ip-172-31-7-117 ec2-user]# docker service ls
+       NAME            MODE         REPLICAS   IMAGE                    PORTS
+2xy1fycc3d3k   JenkinsServer   replicated   2/2        jenkins/jenkins:latest   *:8080->8080/tcp
+
+
+[root@ip-172-31-7-117 ec2-user]# docker service ps JenkinsServer
+ID             NAME              IMAGE                    NODE                                          DESIRED STATE   CURRENT STATE   
+             ERROR     PORTS
+yj7cm2a0y27k   JenkinsServer.1   jenkins/jenkins:latest   ip-172-31-15-72.ap-south-1.compute.internal   Running         Running about a 
+minute ago             
+4h6srqkut84t   JenkinsServer.2   jenkins/jenkins:latest   ip-172-31-7-117.ap-south-1.compute.internal   Running         Running about a 
+minute ago        
+
+
+root@ip-172-31-7-117 ec2-user]# docker node update --availability drain ip-172-31-7-117.ap-south-1.compute.internal 
+ip-172-31-7-117.ap-south-1.compute.internal
+
+
+
+[root@ip-172-31-7-117 ec2-user]# docker service ps JenkinsServer
+ID             NAME                  IMAGE                    NODE                                           DESIRED STATE   CURRENT STA
+TE           ERROR     PORTS
+yj7cm2a0y27k   JenkinsServer.1       jenkins/jenkins:latest   ip-172-31-15-72.ap-south-1.compute.internal    Running         Running 2 m
+inutes ago             
+x8p31o524w5u   JenkinsServer.2       jenkins/jenkins:latest   ip-172-31-11-187.ap-south-1.compute.internal   Ready           Ready 3 sec
+onds ago               
+4h6srqkut84t    \_ JenkinsServer.2   jenkins/jenkins:latest   ip-172-31-7-117.ap-south-1.compute.internal    Shutdown        Running 3 s
+econds ago             
+
+
+[root@ip-172-31-7-117 ec2-user]# docker service ps JenkinsServer
+ID             NAME                  IMAGE                    NODE                                           DESIRED STATE   CURRENT STA
+TE            ERROR     PORTS
+yj7cm2a0y27k   JenkinsServer.1       jenkins/jenkins:latest   ip-172-31-15-72.ap-south-1.compute.internal    Running         Running 2 m
+inutes ago              
+x8p31o524w5u   JenkinsServer.2       jenkins/jenkins:latest   ip-172-31-11-187.ap-south-1.compute.internal   Running         Running 3 s
+econds ago              
+4h6srqkut84t    \_ JenkinsServer.2   jenkins/jenkins:latest   ip-172-31-7-117.ap-south-1.compute.internal    Shutdown        Shutdown 4 
+seconds ago 
+seconds ago             
+
+[root@ip-172-31-7-117 ec2-user]# docker node ls
+ID                            HOSTNAME                                       STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+pg87tyzmasucq7gdjewh7j0f3 *   ip-172-31-7-117.ap-south-1.compute.internal    Ready     Drain          Leader           20.10.4
+oep198ro2zi41l0cs1vhhgl38     ip-172-31-11-187.ap-south-1.compute.internal   Ready     Active                          20.10.4
+54uek0ifx1wzv1m3ljd3ubf42     ip-172-31-15-72.ap-south-1.compute.internal    Ready     Active                          20.10.4
+
+[root@ip-172-31-7-117 ec2-user]# docker node update --availability active ip-172-31-7-117.ap-south-1.compute.internal 
+ip-172-31-7-117.ap-south-1.compute.internal
+
+[root@ip-172-31-7-117 ec2-user]# docker node ls
+ID                            HOSTNAME                                       STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+pg87tyzmasucq7gdjewh7j0f3 *   ip-172-31-7-117.ap-south-1.compute.internal    Ready     Active         Leader           20.10.4
+oep198ro2zi41l0cs1vhhgl38     ip-172-31-11-187.ap-south-1.compute.internal   Ready     Active                          20.10.4
+54uek0ifx1wzv1m3ljd3ubf42     ip-172-31-15-72.ap-south-1.compute.internal    Ready     Active                          20.10.4
+
+[root@ip-172-31-7-117 ec2-user]# docker service scale JenkinsServer=5
+JenkinsServer scaled to 5
+overall progress: 5 out of 5 tasks 
+1/5: running   [==================================================>] 
+2/5: running   [==================================================>] 
+3/5: running   [==================================================>] 
+4/5: running   [==================================================>] 
+5/5: running   [==================================================>] 
+verify: Service converged 
+[root@ip-172-31-7-117 ec2-user]# docker service ps JenkinsServer
+ID             NAME                  IMAGE                    NODE                                           DESIRED STATE   CURRENT STA
+TE                 ERROR     PORTS
+yj7cm2a0y27k   JenkinsServer.1       jenkins/jenkins:latest   ip-172-31-15-72.ap-south-1.compute.internal    Running         Running 4 m
+inutes ago                   
+x8p31o524w5u   JenkinsServer.2       jenkins/jenkins:latest   ip-172-31-11-187.ap-south-1.compute.internal   Running         Running abo
+ut a minute ago              
+4h6srqkut84t    \_ JenkinsServer.2   jenkins/jenkins:latest   ip-172-31-7-117.ap-south-1.compute.internal    Shutdown        Shutdown ab
+out a minute ago             
+6la2vmquu9sz   JenkinsServer.3       jenkins/jenkins:latest   ip-172-31-7-117.ap-south-1.compute.internal    Running         Running 20 
+seconds ago                  
+hpf70mofwqqs   JenkinsServer.4       jenkins/jenkins:latest   ip-172-31-11-187.ap-south-1.compute.internal   Running         Running 20 
+seconds ago                  
+v5f77u1zovq1   JenkinsServer.5       jenkins/jenkins:latest   ip-172-31-7-117.ap-south-1.compute.internal    Running         Running 20 
+seconds ago                  
+[root@ip-172-31-7-117 ec2-user]# 
