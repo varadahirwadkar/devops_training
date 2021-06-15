@@ -1,0 +1,120 @@
+Your Interactive Bash Terminal. A safe place to learn and execute commands.
+
+$ minikube start
+* minikube v1.8.1 on Ubuntu 18.04
+* Using the none driver based on user configuration
+* Running on localhost (CPUs=2, Memory=2460MB, Disk=145651MB) ...
+* OS release is Ubuntu 18.04.4 LTS
+* Preparing Kubernetes v1.17.3 on Docker 19.03.6 ...
+  - kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+* Launching Kubernetes ... 
+* Enabling addons: default-storageclass, storage-provisioner
+* Configuring local host environment ...
+* Waiting for cluster to come online ...
+* Done! kubectl is now configured to use "minikube"
+
+$ kubectl get nodes
+NAME       STATUS     ROLES    AGE   VERSION
+minikube   NotReady   master   16s   v1.17.3
+
+$ kubectl run http --image=katacoda/docker-http-server:latest --replicas=1
+kubectl run --generator=deployment/apps.v1 is DEPRECATED and will be removed in a future version. Use kubectl run --generator=run-pod/v1 or kubectl create instead.
+deployment.apps/http created
+
+$ kubectl get deployments
+NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+http   1/1     1            1           4s
+
+$ kubectl describe deployment http
+Name:                   http
+Namespace:              default
+CreationTimestamp:      Tue, 15 Jun 2021 11:10:01 +0000
+Labels:                 run=http
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               run=http
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  run=http
+  Containers:
+   http:
+    Image:        katacoda/docker-http-server:latest
+    Port:         <none>
+    Host Port:    <none>
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   http-774bb756bb (1/1 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  11s   deployment-controller  Scaled up replica set http-774bb756bb to 1
+
+$ kubectl expose deployment http --external-ip="172.17.0.70" --port=8000 --target-port=80
+service/http exposed
+
+$ curl http://172.17.0.70:8000
+<h1>This request was processed by host: http-774bb756bb-wnx5b</h1>
+
+$ kubectl run httpexposed --image=katacoda/docker-http-server:latest --replicas=1 --port=80 --hostport=8001
+kubectl run --generator=deployment/apps.v1 is DEPRECATED and will be removed in a future version. Use kubectl run --generator=run-pod/v1 or kubectl create instead.
+deployment.apps/httpexposed created
+
+$ curl http://172.17.0.70:8001
+<h1>This request was processed by host: httpexposed-68cb8c8d4-5hkth</h1>
+
+$ kubectl get svc
+NAME         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+http         ClusterIP   10.107.11.165   172.17.0.70   8000/TCP   2m
+kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP    3m51s
+
+$ docker ps | grep httpexposed
+903ce2b3ee8d        katacoda/docker-http-server   "/app"                   40 seconds ago      Up 39 seconds                              k8s_httpexposed_httpexposed-68cb8c8d4-5hkth_default_e77db201-37cf-4e87-bb17-c77d10a865e9_0
+5a6581d176bb        k8s.gcr.io/pause:3.1          "/pause"                 43 seconds ago      Up 41 seconds       0.0.0.0:8001->80/tcp   k8s_POD_httpexposed-68cb8c8d4-5hkth_default_e77db201-37cf-4e87-bb17-c77d10a865e9_0
+
+$ kubectl scale --replicas=3 deployment http
+deployment.apps/http scaled
+
+$ kubectl get pods
+NAME                          READY   STATUS              RESTARTS   AGE
+http-774bb756bb-8b8hl         0/1     ContainerCreating   0          5s
+http-774bb756bb-wnx5b         1/1     Running             0          5m2s
+http-774bb756bb-zgbx9         1/1     Running             0          5s
+httpexposed-68cb8c8d4-5hkth   1/1     Running             0          2m12s
+
+$ kubectl describe svc http
+Name:              http
+Namespace:         default
+Labels:            run=http
+Annotations:       <none>
+Selector:          run=http
+Type:              ClusterIP
+IP:                10.107.11.165
+External IPs:      172.17.0.70
+Port:              <unset>  8000/TCP
+TargetPort:        80/TCP
+Endpoints:         172.18.0.4:80,172.18.0.6:80,172.18.0.7:80
+Session Affinity:  None
+Events:            <none>
+
+$ curl http://172.17.0.70:8000
+<h1>This request was processed by host: http-774bb756bb-zgbx9</h1>
+
+$ curl http://172.17.0.70:8000
+<h1>This request was processed by host: http-774bb756bb-8b8hl</h1>
+
+$ kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+http-774bb756bb-8b8hl         1/1     Running   0          83s
+http-774bb756bb-wnx5b         1/1     Running   0          6m20s
+http-774bb756bb-zgbx9         1/1     Running   0          83s
+httpexposed-68cb8c8d4-5hkth   1/1     Running   0          3m30s
+$ 
