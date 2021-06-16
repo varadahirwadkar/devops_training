@@ -1,0 +1,127 @@
+
+C:\Users\Varad>kubectl get all
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   19h
+
+C:\Users\Varad>cd Desktop\kubernetes
+----------------------------------------------------------------------------
+C:\Users\Varad\Desktop\kubernetes>kubectl apply -f mongo-secret.yaml
+secret/mongodb-secret created
+
+C:\Users\Varad\Desktop\kubernetes>kubectl get secret
+NAME                  TYPE                                  DATA   AGE
+default-token-k85jc   kubernetes.io/service-account-token   3      19h
+mongodb-secret        Opaque                                2      39s
+
+--------------------------------------------------------------------------
+C:\Users\Varad\Desktop\kubernetes>kubectl apply -f mongo-depl.yaml
+deployment.apps/mongodb-deployment created
+
+C:\Users\Varad\Desktop\kubernetes>kubectl get all
+NAME                                     READY   STATUS              RESTARTS   AGE
+pod/mongodb-deployment-8f6675bc5-hdg9r   0/1     ContainerCreating   0          7s
+
+NAME                 TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP   19h
+
+NAME                                 READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/mongodb-deployment   0/1     1            0           9s
+
+NAME                                           DESIRED   CURRENT   READY   AGE
+replicaset.apps/mongodb-deployment-8f6675bc5   1         1         0       8s
+
+C:\Users\Varad\Desktop\kubernetes>kubectl get pods
+NAME                                 READY   STATUS              RESTARTS   AGE
+mongodb-deployment-8f6675bc5-hdg9r   0/1     ContainerCreating   0          25s
+
+--------------------------------------------------------------------------
+C:\Users\Varad\Desktop\kubernetes>kubectl apply -f mongo-depl.yaml
+deployment.apps/mongodb-deployment unchanged
+service/mongodb-service created
+
+C:\Users\Varad\Desktop\kubernetes>kubectl get service
+NAME              TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
+kubernetes        ClusterIP   10.96.0.1       <none>        443/TCP     20h
+mongodb-service   ClusterIP   10.102.64.224   <none>        27017/TCP   14s
+
+C:\Users\Varad\Desktop\kubernetes>kubectl describe service mongodb-service
+Name:              mongodb-service
+Namespace:         default
+Labels:            <none>
+Annotations:       <none>
+Selector:          app=mongodb
+Type:              ClusterIP
+IP:                10.102.64.224
+Port:              <unset>  27017/TCP
+TargetPort:        27017/TCP
+Endpoints:         172.17.0.3:27017
+Session Affinity:  None
+Events:            <none>
+
+C:\Users\Varad\Desktop\kubernetes>kubectl get pods -o wide
+NAME                                 READY   STATUS    RESTARTS   AGE     IP           NODE       NOMINATED NODE   READINESS GATES
+mongodb-deployment-8f6675bc5-hdg9r   1/1     Running   0          2m35s   172.17.0.3   minikube   <none>           <none>
+
+--------------------------------------------------------------------------
+
+C:\Users\Varad\Desktop\kubernetes>kubectl apply -f mongo-config.yaml
+configmap/mongodb-configmap created
+
+C:\Users\Varad\Desktop\kubernetes>kubectl apply -f mongo-express.yaml
+deployment.apps/mongo-express created
+
+C:\Users\Varad\Desktop\kubernetes>kubectl get pods
+NAME                                 READY   STATUS              RESTARTS   AGE
+mongo-express-78fcf796b8-65lv8       0/1     ContainerCreating   0          15s
+mongodb-deployment-8f6675bc5-hdg9r   1/1     Running             0          5m46s
+
+C:\Users\Varad\Desktop\kubernetes>kubectl get pods
+NAME                                 READY   STATUS              RESTARTS   AGE
+mongo-express-78fcf796b8-65lv8       0/1     ContainerCreating   0          64s
+mongodb-deployment-8f6675bc5-hdg9r   1/1     Running             0          6m35s
+
+
+C:\Users\Varad\Desktop\kubernetes>kubectl logs mongo-express-78fcf796b8-65lv8
+Waiting for mongodb-service:27017...
+Welcome to mongo-express
+------------------------
+
+
+Mongo Express server listening at http://0.0.0.0:8081
+←[31mServer is open to allow connections from anyone (0.0.0.0)←[39m
+←[31mbasicAuth credentials are "admin:pass", it is recommended you change this in your config.js!←[39m
+Database connected
+Admin Database connected
+
+C:\Users\Varad\Desktop\kubernetes>
+C:\Users\Varad\Desktop\kubernetes>kubectl get pods
+NAME                                 READY   STATUS    RESTARTS   AGE
+mongo-express-78fcf796b8-65lv8       1/1     Running   0          2m11s
+mongodb-deployment-8f6675bc5-hdg9r   1/1     Running   0          7m42s
+
+C:\Users\Varad\Desktop\kubernetes>kubectl apply -f mongo-express.yaml
+deployment.apps/mongo-express unchanged
+service/mongo-express-service created
+
+C:\Users\Varad\Desktop\kubernetes>kubectl get service
+NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes              ClusterIP      10.96.0.1       <none>        443/TCP          20h
+mongo-express-service   LoadBalancer   10.107.195.46   <pending>     8081:30000/TCP   45s
+mongodb-service         ClusterIP      10.102.64.224   <none>        27017/TCP        7m29s
+
+C:\Users\Varad\Desktop\kubernetes>minikube service mongo-express-service
+! Executing "docker container inspect minikube --format={{.State.Status}}" took an unusually long time: 4.8552063s
+* Restarting the docker service may improve performance.
+|-----------|-----------------------|-------------|---------------------------|
+| NAMESPACE |         NAME          | TARGET PORT |            URL            |
+|-----------|-----------------------|-------------|---------------------------|
+| default   | mongo-express-service |        8081 | http://192.168.49.2:30000 |
+|-----------|-----------------------|-------------|---------------------------|
+* Starting tunnel for service mongo-express-service.
+|-----------|-----------------------|-------------|------------------------|
+| NAMESPACE |         NAME          | TARGET PORT |          URL           |
+|-----------|-----------------------|-------------|------------------------|
+| default   | mongo-express-service |             | http://127.0.0.1:56783 |
+|-----------|-----------------------|-------------|------------------------|
+* Opening service default/mongo-express-service in default browser...
+! Because you are using a Docker driver on windows, the terminal needs to be open to run it.

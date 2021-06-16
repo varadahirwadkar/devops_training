@@ -1,0 +1,166 @@
+Your Interactive Bash Terminal. A safe place to learn and execute commands.
+
+$ minikube start --wait=false
+* minikube v1.8.1 on Ubuntu 18.04
+* Using the none driver based on user configuration
+* Running on localhost (CPUs=2, Memory=2460MB, Disk=145651MB) ...
+* OS release is Ubuntu 18.04.4 LTS
+* Preparing Kubernetes v1.17.3 on Docker 19.03.6 ...
+  - kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+* Launching Kubernetes ... 
+* Enabling addons: default-storageclass, storage-provisioner
+* Configuring local host environment ...
+* Done! kubectl is now configured to use "minikube"
+$ 
+$ 
+------------------------------------------
+$ kubectl apply -f deployment.yaml 
+pod/sample-pod configured
+
+$ kubectl get pods
+NAME         READY   STATUS    RESTARTS   AGE
+sample-pod   1/1     Running   0          2m9s
+
+-------------------------------------------------
+$ kubectl describe pod sample-pod
+Name:         sample-pod
+Namespace:    default
+Priority:     0
+Node:         minikube/172.17.0.10
+Start Time:   Wed, 16 Jun 2021 05:33:26 +0000
+Labels:       <none>
+Annotations:  kubectl.kubernetes.io/last-applied-configuration:
+                {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"name":"sample-pod","namespace":"default"},"spec":{"containers":[{"image":"ng...
+Status:       Running
+IP:           172.18.0.4
+IPs:
+  IP:  172.18.0.4
+Containers:
+  simpleservice:
+    Container ID:   docker://608f9d750367ca35c3d4e6cd31e1a0b474af9e594c0020ee216219f32ea30e30
+    Image:          nginx:1.14
+    Image ID:       docker-pullable://nginx@sha256:f7988fb6c02e0ce69257d9bd9cf37ae20a60f1df7563c3a2a6abe24160306b8d
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Wed, 16 Jun 2021 05:33:34 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-6pdnc (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  default-token-6pdnc:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-6pdnc
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  3m34s  default-scheduler  Successfully assigned default/sample-pod to minikube
+  Normal  Pulling    3m33s  kubelet, minikube  Pulling image "nginx:1.14"
+  Normal  Pulled     3m27s  kubelet, minikube  Successfully pulled image "nginx:1.14"
+  Normal  Created    3m26s  kubelet, minikube  Created container simpleservice
+  Normal  Started    3m26s  kubelet, minikube  Started container simpleservice
+
+-------------------------------------------------------------------
+
+##change in image version of nginx in deployment
+
+$ kubectl apply -f deployment.yaml 
+pod/sample-pod configured
+
+$ kubectl get pods
+NAME         READY   STATUS    RESTARTS   AGE
+sample-pod   1/1     Running   0          8m52s
+
+$ kubectl describe pod sample-pod
+Name:         sample-pod
+Namespace:    default
+Priority:     0
+Node:         minikube/172.17.0.10
+Start Time:   Wed, 16 Jun 2021 05:33:26 +0000
+Labels:       <none>
+Annotations:  kubectl.kubernetes.io/last-applied-configuration:
+                {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"name":"sample-pod","namespace":"default"},"spec":{"containers":[{"image":"ng...
+Status:       Running
+IP:           172.18.0.4
+IPs:
+  IP:  172.18.0.4
+Containers:
+  simpleservice:
+    Container ID:   docker://05d1f7c736299314ece68f68f68f1bcc048520bf34c741139010e880ad0eb6d6
+    Image:          nginx:1.19
+    Image ID:       docker-pullable://nginx@sha256:df13abe416e37eb3db4722840dd479b00ba193ac6606e7902331dcea50f4f1f2
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Wed, 16 Jun 2021 05:42:20 +0000
+    Last State:     Terminated
+      Reason:       Completed
+      Exit Code:    0
+      Started:      Wed, 16 Jun 2021 05:33:34 +0000
+      Finished:     Wed, 16 Jun 2021 05:42:10 +0000
+    Ready:          True
+    Restart Count:  1
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-6pdnc (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  default-token-6pdnc:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-6pdnc
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type    Reason     Age                  From               Message
+  ----    ------     ----                 ----               -------
+  Normal  Scheduled  9m6s                 default-scheduler  Successfully assigned default/sample-pod to minikube
+  Normal  Pulling    9m5s                 kubelet, minikube  Pulling image "nginx:1.14"
+  Normal  Pulled     8m59s                kubelet, minikube  Successfully pulled image "nginx:1.14"
+  Normal  Killing    22s                  kubelet, minikube  Container simpleservice definition changed, will be restarted
+  Normal  Pulling    22s                  kubelet, minikube  Pulling image "nginx:1.19"
+  Normal  Pulled     13s                  kubelet, minikube  Successfully pulled image "nginx:1.19"
+  Normal  Created    12s (x2 over 8m58s)  kubelet, minikube  Created container simpleservice
+  Normal  Started    12s (x2 over 8m58s)  kubelet, minikube  Started container simpleservice
+
+-----------------------------------------------------------------
+$ kubectl delete pod sample-pod
+pod "sample-pod" deleted
+
+$ kubectl get pods
+No resources found in default namespace.
+
+------------------------------------------------------------------
+$ kubectl apply -f deployment.yaml 
+pod/sample-pod created
+
+$ kubectl get pods
+NAME         READY   STATUS    RESTARTS   AGE
+sample-pod   1/1     Running   0          3s
+         
+$ kubectl delete -f deployment.yaml
+pod "sample-pod" deleted
+
+$ kubectl get pods
+No resources found in default namespace.
+$ 

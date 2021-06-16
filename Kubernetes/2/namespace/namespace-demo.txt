@@ -1,0 +1,89 @@
+
+$ touch ConfigMap.yaml
+
+$ kubectl apply -f ConfigMap.yaml 
+configmap/mongodb-configmap created
+
+$ kubectl get configmap
+NAME                DATA   AGE
+mongodb-configmap   1      20s
+
+$ kubectl get configmap -o yaml
+apiVersion: v1
+items:
+- apiVersion: v1
+  data:
+    database_url: mongodb-service
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"database_url":"mongodb-service"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"mongodb-configmap","namespace":"default"}}
+    creationTimestamp: "2021-06-16T09:18:08Z"
+    name: mongodb-configmap
+    namespace: default
+    resourceVersion: "4376"
+    selfLink: /api/v1/namespaces/default/configmaps/mongodb-configmap
+    uid: f32c0246-f51c-42f8-821f-7f9d89b8d743
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
+
+$ kubectl apply -f ConfigMap.yaml --namespace=my-namespace
+Error from server (NotFound): error when creating "ConfigMap.yaml": namespaces "my-namespace" not found
+
+$ kubectl create namespace my-namespace
+namespace/my-namespace created
+
+$ kubectl apply -f ConfigMap.yaml --namespace=my-namespace
+configmap/mongodb-configmap created
+
+$ kubectl get configmap -n my-namespace
+NAME                DATA   AGE
+mongodb-configmap   1      72s
+
+$ touch configmap-demo.yaml
+
+$ kubectl apply -f namespace_demo.yaml 
+namespace/demo-namespace created
+
+$ kubectl get namespace
+NAME              STATUS   AGE
+default           Active   42m
+demo-namespace    Active   15s
+kube-node-lease   Active   42m
+kube-public       Active   42m
+kube-system       Active   42m
+my-namespace      Active   9m11s
+
+$ kubectl config set-context --current --namespace=demo-namespace
+Context "minikube" modified.
+
+$ kubectl delete namespace my-namespace
+namespace "my-namespace" deleted
+
+$ kubectl get pods -n my-namespace
+No resources found in my-namespace namespace.
+
+$ kubectl get pods -n demo-namespace
+No resources found in demo-namespace namespace.
+
+$ kubectl get namespace
+NAME              STATUS   AGE
+default           Active   45m
+demo-namespace    Active   3m31s
+kube-node-lease   Active   45m
+kube-public       Active   45m
+kube-system       Active   45m
+
+$ kubectl apply -f configmap_demo.yaml 
+configmap/mongodb-configmap2 created
+
+$ kubectl get configmap
+NAME                 DATA   AGE
+mongodb-configmap2   1      20s
+
+$ kubectl get configmap -n default
+NAME                DATA   AGE
+mongodb-configmap   1      26m

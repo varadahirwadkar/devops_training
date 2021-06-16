@@ -1,0 +1,11 @@
+# This is your Editor pane.
+apiVersion: v1
+kind: Pod
+metadata:
+    name: sample-pod
+spec:
+    containers:
+    - name: simpleservice
+      image: nginx:1.19
+      ports:
+          - containerPort: 80
