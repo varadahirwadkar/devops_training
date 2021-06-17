@@ -1,0 +1,62 @@
+
+
+C:\Users\Varad\Desktop\kubernetes\3>kubectl apply -f persistent_volume.yaml
+persistentvolume/html created
+
+C:\Users\Varad\Desktop\kubernetes\3>kubectl apply -f pvc.yaml
+persistentvolumeclaim/htmlclaim created
+
+C:\Users\Varad\Desktop\kubernetes\3>kubectl get pvc
+NAME        STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+htmlclaim   Bound    html     100Mi      ROX            manual         10s
+
+C:\Users\Varad\Desktop\kubernetes\3>kubectl get pv
+NAME   CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM               STORAGECLASS   REASON   AGE
+html   100Mi      ROX            Retain           Bound    default/htmlclaim   manual                  22s
+
+C:\Users\Varad\Desktop\kubernetes\3>kubectl apply -f static-website-pod.yaml
+deployment.apps/kubernetes-static-website created
+service/static-website-service created
+
+C:\Users\Varad\Desktop\kubernetes\3>kubectl apply -f static-website-pod.yaml
+deployment.apps/kubernetes-static-website configured
+service/static-website-service unchanged
+
+
+C:\Users\Varad\Desktop\kubernetes\3>kubectl get pods -owide
+NAME                                         READY   STATUS        RESTARTS   AGE     IP           NODE       NOMINATED NODE   READINESS GATES
+kubernetes-static-website-574dd9f88b-k7dhf   0/1     Terminating   0          4m48s   172.17.0.4   minikube   <none>           <none>
+kubernetes-static-website-7988f9fd9b-pbhl4   1/1     Running       0          65s     172.17.0.2   minikube   <none>           <none>
+kubernetes-static-website-7988f9fd9b-r9bpf   1/1     Running       0          97s     172.17.0.6   minikube   <none>           <none>
+
+C:\Users\Varad\Desktop\kubernetes\3>minikube ip
+! Executing "docker container inspect minikube --format={{.State.Status}}" took an unusually long time: 13.9372314s
+* Restarting the docker service may improve performance.
+192.168.49.2
+
+C:\Users\Varad\Desktop\kubernetes\3>
+C:\Users\Varad\Desktop\kubernetes\3>curl 192.168.49.2
+curl: (7) Failed to connect to 192.168.49.2 port 80: Timed out
+
+C:\Users\Varad\Desktop\kubernetes\3>
+C:\Users\Varad\Desktop\kubernetes\3>curl http://192.168.49.2
+^C
+C:\Users\Varad\Desktop\kubernetes\3>kubectl get svc
+NAME                     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+kubernetes               ClusterIP   10.96.0.1       <none>        443/TCP        2d1h
+static-website-service   NodePort    10.105.168.88   <none>        80:30500/TCP   7m45s
+
+C:\Users\Varad\Desktop\kubernetes\3>minikube service static-website-service
+|-----------|------------------------|-------------|---------------------------|
+| NAMESPACE |          NAME          | TARGET PORT |            URL            |
+|-----------|------------------------|-------------|---------------------------|
+| default   | static-website-service |          80 | http://192.168.49.2:30500 |
+|-----------|------------------------|-------------|---------------------------|
+* Starting tunnel for service static-website-service.
+|-----------|------------------------|-------------|------------------------|
+| NAMESPACE |          NAME          | TARGET PORT |          URL           |
+|-----------|------------------------|-------------|------------------------|
+| default   | static-website-service |             | http://127.0.0.1:60207 |
+|-----------|------------------------|-------------|------------------------|
+* Opening service default/static-website-service in default browser...
+! Because you are using a Docker driver on windows, the terminal needs to be open to run it.

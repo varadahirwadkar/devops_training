@@ -1,0 +1,118 @@
+$ kubectl apply -f volume_demo1.yaml 
+deployment.apps/ebay-app created
+
+$ kubectl get pods
+NAME                        READY   STATUS              RESTARTS   AGE
+ebay-app-56dfdb75cb-xkr6p   0/2     ContainerCreating   0          23s
+
+$ kubectl get pods
+NAME                        READY   STATUS    RESTARTS   AGE
+ebay-app-56dfdb75cb-xkr6p   2/2     Running   0          70s
+
+$ kubectl describe pod ebay-app-56dfdb75cb-xkr6p
+Name:         ebay-app-56dfdb75cb-xkr6p
+Namespace:    default
+Priority:     0
+Node:         minikube/172.17.0.13
+Start Time:   Thu, 17 Jun 2021 10:07:28 +0000
+Labels:       app=ebay
+              environment=dev
+              pod-template-hash=56dfdb75cb
+Annotations:  <none>
+Status:       Running
+IP:           172.18.0.4
+IPs:
+  IP:           172.18.0.4
+Controlled By:  ReplicaSet/ebay-app-56dfdb75cb
+Containers:
+  container1-nginx:
+    Container ID:   docker://74f4010aa27fd11407d8ec1a141baaca55eb22acaf8e35191125bdfc9d26f293
+    Image:          nginx
+    Image ID:       docker-pullable://nginx@sha256:6d75c99af15565a301e48297fa2d121e15d80ad526f8369c526324f0f7ccb750
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Thu, 17 Jun 2021 10:07:40 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/nginx-data from volume (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-z7ljv (ro)
+  container2-tomcat:
+    Container ID:   docker://c5da6c630844a8cb18fcf40e8171c43aee9a23a34b83439305347475158e4f88
+    Image:          tomcat
+    Image ID:       docker-pullable://tomcat@sha256:9f502a5c7bafd4e1953dba4e77f9347c9211f987902ab8668a34997178f9bcd0
+    Port:           <none>
+    Host Port:      <none>
+    State:          Running
+      Started:      Thu, 17 Jun 2021 10:08:06 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-z7ljv (ro)
+      /var/tomcat-data from volume (rw)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  volume:
+    Type:          HostPath (bare host directory volume)
+    Path:          /mnt/data
+    HostPathType:  
+  default-token-z7ljv:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-z7ljv
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  12m   default-scheduler  Successfully assigned default/ebay-app-56dfdb75cb-xkr6p to minikube
+  Normal  Pulling    12m   kubelet, minikube  Pulling image "nginx"
+  Normal  Pulled     12m   kubelet, minikube  Successfully pulled image "nginx"
+  Normal  Created    12m   kubelet, minikube  Created container container1-nginx
+  Normal  Started    12m   kubelet, minikube  Started container container1-nginx
+  Normal  Pulling    12m   kubelet, minikube  Pulling image "tomcat"
+  Normal  Pulled     11m   kubelet, minikube  Successfully pulled image "tomcat"
+  Normal  Created    11m   kubelet, minikube  Created container container2-tomcat
+  Normal  Started    11m   kubelet, minikube  Started container container2-tomcat
+
+
+$ kubectl exec -it ebay-app-56dfdb75cb-xkr6p bash
+Defaulting container name to container1-nginx.
+Use 'kubectl describe pod/ebay-app-56dfdb75cb-xkr6p -n default' to see all of the containers in this pod.
+
+root@ebay-app-56dfdb75cb-xkr6p:/# ls /var/nginx-data/
+root@ebay-app-56dfdb75cb-xkr6p:/# cd /var/nginx-data/
+root@ebay-app-56dfdb75cb-xkr6p:/var/nginx-data# touch demofile1
+root@ebay-app-56dfdb75cb-xkr6p:/var/nginx-data# ls
+demofile1
+root@ebay-app-56dfdb75cb-xkr6p:/var/nginx-data# exit
+exit
+
+$ ls /mnt/data
+demofile1
+
+$ kubectl exec -it ebay-app-56dfdb75cb-xkr6p -c container2-tomcat  bash
+root@ebay-app-56dfdb75cb-xkr6p:/usr/local/tomcat# cd ..
+root@ebay-app-56dfdb75cb-xkr6p:/usr/local# cd ..
+root@ebay-app-56dfdb75cb-xkr6p:/usr# cd ..
+root@ebay-app-56dfdb75cb-xkr6p:/# ls /var
+backups  cache  lib  local  lock  log  mail  opt  run  spool  tmp  tomcat-data
+root@ebay-app-56dfdb75cb-xkr6p:/# ls /var/tomcat-data
+demofile1
+root@ebay-app-56dfdb75cb-xkr6p:/# cd /var/tomcat-data/
+root@ebay-app-56dfdb75cb-xkr6p:/var/tomcat-data# touch demo2
+root@ebay-app-56dfdb75cb-xkr6p:/var/tomcat-data# exit
+exit
+
+$ ls /mnt/data
+demo2  demofile1

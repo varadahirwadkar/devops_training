@@ -1,0 +1,43 @@
+$ kubectl apply -f volume_2.yaml 
+deployment.apps/ebay-app configured
+
+$ cd /mnt/
+$ ls
+data  data1  data2
+
+$ kubectl get pods
+NAME                        READY   STATUS    RESTARTS   AGE
+ebay-app-5b4cf674f6-p7lz8   2/2     Running   0          2m24s
+
+$ kubectl exec -it ebay-app-5b4cf674f6-p7lz8 -c container1-nginx bash
+root@ebay-app-5b4cf674f6-p7lz8:/# cd /var/nginx-data/
+root@ebay-app-5b4cf674f6-p7lz8:/var/nginx-data# ls
+root@ebay-app-5b4cf674f6-p7lz8:/var/nginx-data# touch nginx-file-demo
+root@ebay-app-5b4cf674f6-p7lz8:/var/nginx-data# ls
+nginx-file-demo
+root@ebay-app-5b4cf674f6-p7lz8:/var/nginx-data# exit
+exit
+
+$ kubectl exec -it ebay-app-5b4cf674f6-p7lz8 -c container2-tomcat bash
+root@ebay-app-5b4cf674f6-p7lz8:/usr/local/tomcat# cd ..
+root@ebay-app-5b4cf674f6-p7lz8:/usr/local# cd ..
+root@ebay-app-5b4cf674f6-p7lz8:/usr# cd ..
+root@ebay-app-5b4cf674f6-p7lz8:/# cd /var/tomcat-data/
+root@ebay-app-5b4cf674f6-p7lz8:/var/tomcat-data# ls
+root@ebay-app-5b4cf674f6-p7lz8:/var/tomcat-data# touch tomcat-demo
+root@ebay-app-5b4cf674f6-p7lz8:/var/tomcat-data# exit
+exit
+
+$ cd /mnt
+
+$ ls
+data  data1  data2
+
+$ ls data
+demo2  demofile1
+
+$ ls data1
+nginx-file-demo
+
+$ ls data2
+tomcat-demo
