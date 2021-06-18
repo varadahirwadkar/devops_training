@@ -1,0 +1,96 @@
+$ start.sh
+Starting Kubernetes...minikube version: v1.8.1
+commit: cbda04cf6bbe65e987ae52bb393c10099ab62014
+* minikube v1.8.1 on Ubuntu 18.04
+* Using the none driver based on user configuration
+* Running on localhost (CPUs=2, Memory=2460MB, Disk=145651MB) ...
+* OS release is Ubuntu 18.04.4 LTS
+* Preparing Kubernetes v1.17.3 on Docker 19.03.6 ...
+  - kubelet.resolv-conf=/run/systemd/resolve/resolv.conf
+* Launching Kubernetes ... 
+* Enabling addons: default-storageclass, storage-provisioner
+* Configuring local host environment ...
+* Done! kubectl is now configured to use "minikube"
+* The 'dashboard' addon is enabled
+Kubernetes Started
+$ vim web.yaml
+$ kubectl get pods -w -l app=nginx
+NAME    READY   STATUS    RESTARTS   AGE
+web-0   0/1     Pending   0          0s
+web-0   0/1     Pending   0          0s
+web-0   0/1     Pending   0          2s
+web-0   0/1     ContainerCreating   0          2s
+web-0   1/1     Running             0          11s
+web-1   0/1     Pending             0          0s
+web-1   0/1     Pending             0          0s
+web-1   0/1     Pending             0          2s
+web-1   0/1     ContainerCreating   0          2s
+web-1   1/1     Running             0          4s
+
+web-0   1/1     Terminating         0          5m8s
+web-1   1/1     Terminating         0          4m57s
+web-0   0/1     Terminating         0          5m10s
+web-1   0/1     Terminating         0          4m59s
+web-0   0/1     Terminating         0          5m11s
+web-0   0/1     Terminating         0          5m11s
+web-0   0/1     Pending             0          0s
+web-0   0/1     Pending             0          0s
+web-1   0/1     Terminating         0          5m
+web-1   0/1     Terminating         0          5m
+web-0   0/1     ContainerCreating   0          0s
+web-0   1/1     Running             0          2s
+web-1   0/1     Pending             0          0s
+web-1   0/1     Pending             0          0s
+web-1   0/1     ContainerCreating   0          0s
+web-1   1/1     Running             0          2s
+web-2   0/1     Pending             0          0s
+web-2   0/1     Pending             0          0s
+web-2   0/1     Pending             0          2s
+web-2   0/1     ContainerCreating   0          2s
+web-2   1/1     Running             0          4s
+web-3   0/1     Pending             0          0s
+web-3   0/1     Pending             0          0s
+web-3   0/1     Pending             0          2s
+web-3   0/1     ContainerCreating   0          2s
+web-3   1/1     Running             0          4s
+web-4   0/1     Pending             0          0s
+web-4   0/1     Pending             0          0s
+web-4   0/1     Pending             0          2s
+web-4   0/1     ContainerCreating   0          2s
+web-4   1/1     Running             0          4s
+
+
+web-4   1/1     Terminating         0          37s
+web-4   0/1     Terminating         0          38s
+web-4   0/1     Terminating         0          43s
+web-4   0/1     Terminating         0          43s
+web-3   1/1     Terminating         0          47s
+web-3   0/1     Terminating         0          49s
+web-3   0/1     Terminating         0          50s
+web-3   0/1     Terminating         0          50s
+
+
+web-2   1/1     Terminating         0          2m9s
+web-2   0/1     Terminating         0          2m10s
+web-2   0/1     Terminating         0          2m21s
+web-2   0/1     Terminating         0          2m21s
+web-2   0/1     Pending             0          0s
+web-2   0/1     Pending             0          1s
+web-2   0/1     ContainerCreating   0          1s
+web-2   1/1     Running             0          4s
+web-1   1/1     Terminating         0          5m37s
+web-1   0/1     Terminating         0          5m38s
+web-1   0/1     Terminating         0          5m43s
+web-1   0/1     Terminating         0          5m43s
+web-1   0/1     Pending             0          0s
+web-1   0/1     Pending             0          0s
+web-1   0/1     ContainerCreating   0          0s
+web-1   1/1     Running             0          2s
+web-0   1/1     Terminating         0          5m48s
+web-0   0/1     Terminating         0          5m49s
+web-0   0/1     Terminating         0          5m50s
+web-0   0/1     Terminating         0          5m50s
+web-0   0/1     Pending             0          0s
+web-0   0/1     Pending             0          0s
+web-0   0/1     ContainerCreating   0          0s
+web-0   1/1     Running             0          2s

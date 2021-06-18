@@ -1,0 +1,37 @@
+$ kubectl apply -f web.yaml
+service/nginx created
+statefulset.apps/web created
+$ kubectl get service nginx
+NAME    TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+nginx   ClusterIP   None         <none>        80/TCP    55s
+$ kubectl get stateful
+error: the server doesn't have a resource type "stateful"
+$ kubectl get statefulset web
+NAME   READY   AGE
+web    2/2     88s
+$ kubectl get pods -l app=nginx
+NAME    READY   STATUS    RESTARTS   AGE
+web-0   1/1     Running   0          3m14s
+web-1   1/1     Running   0          3m3s
+$ for i in 0 1; do kubectl exec "web-$i" -- sh -c 'hostname'; done
+web-0
+web-1
+$ kubectl delete pod -l app=nginx
+pod "web-0" deleted
+pod "web-1" deleted
+$ kubectl get pvc -l app=nginx
+NAME        STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+www-web-0   Bound    pvc-010a15de-6bba-490a-83d3-3386ee2d341e   1Gi        RWO            standard       6m22s
+www-web-1   Bound    pvc-8c7dcdd4-17a9-4fb7-9e69-eba9367520e1   1Gi        RWO            standard       6m11s
+$ for i in 0 1; do kubectl exec "web-$i" -- sh -c 'echo "$(hostname)" > /usr/share/nginx/html/index.html'; done
+$ for i in 0 1; do kubectl exec -i -t "web-$i" -- curl http://localhost/; done
+web-0
+web-1
+$ kubectl scale sts web --replicas=5
+statefulset.apps/web scaled
+$ kubectl patch sts web -p '{"spec":{"replicas":3}}'
+statefulset.apps/web patched
+$ kubectl patch statefulset web -p '{"spec":{"updateStrategy":{"type":"RollingUpdate"}}}'
+statefulset.apps/web patched (no change)
+$ kubectl patch statefulset web --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/image", "value":"gcr.io/google_containers/nginx-slim:0.8"}]'
+statefulset.apps/web patched

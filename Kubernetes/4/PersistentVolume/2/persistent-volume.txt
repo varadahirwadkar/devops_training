@@ -1,0 +1,65 @@
+$ kubectl apply -f https://k8s.io/examples/pods/storage/pv-volume.yaml
+persistentvolume/task-pv-volume created
+
+$ kubectl get pv task-pv-volume
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+task-pv-volume   10Gi       RWO            Retain           Available           manual                  11s
+
+$ kubectl apply -f https://k8s.io/examples/pods/storage/pv-claim.yaml
+persistentvolumeclaim/task-pv-claim created
+
+$ kubectl get pv task-pv-volume
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                   STORAGECLASS   REASON   AGE
+task-pv-volume   10Gi       RWO            Retain           Bound    default/task-pv-claim   manual                  36s
+
+$ kubectl get pvc
+NAME            STATUS   VOLUME           CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+task-pv-claim   Bound    task-pv-volume   10Gi       RWO            manual         28s
+
+$ vim pod-www.yaml
+
+$ kubectl apply -f pod-www.yaml 
+pod/www created
+
+$ kubectl get pods
+NAME   READY   STATUS    RESTARTS   AGE
+www    1/1     Running   0          19s
+
+$ ip=$(kubectl get pod www -o yaml |grep podIP | awk '{split($0,a,":"); print a[2]}'); echo $ip
+172.18.0.6
+
+$ curl $ip
+Hello from Kubernetes storage
+
+
+$ sudo sh -c "echo 'Hello from Varad' > /mnt/data/index.html"
+
+$ ip=$(kubectl get pod www -o yaml |grep podIP | awk '{split($0,a,":"); print a[2]}'); echo $ip
+172.18.0.6
+
+$ curl $ip
+Hello from Varad
+
+$ kubectl delete pod www
+pod "www" deleted
+
+$ ls
+Desktop  pod-www.yaml 
+$ vim pod-www.yaml 
+
+$ vim pod-www2.yaml 
+
+$ kubectl apply -f pod-www2.yaml 
+pod/www2 created
+
+$ kubectl get pod
+NAME   READY   STATUS    RESTARTS   AGE
+www2   1/1     Running   0          11s
+
+$ curl $ip
+Hello from Varad
+
+$ echo $ip
+172.18.0.6
+
+$ 

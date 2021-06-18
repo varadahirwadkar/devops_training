@@ -1,0 +1,62 @@
+$  minikube addons enable ingress
+* The 'ingress' addon is enabled
+
+$  kubectl get pods --all-namespaces -l app=ingress-nginx
+No resources found
+
+$  kubectl get pods
+No resources found in default namespace.
+
+$ kubectl apply -f banana.yaml 
+pod/banana-app created
+service/banana-service created
+
+$ kubectl apply -f apple.yaml 
+pod/apple-app created
+service/apple-service created
+
+$ kubectl apply -f ingress.yaml 
+ingress.extensions/example-ingress unchanged
+
+$ kubectl get ing
+NAME              HOSTS   ADDRESS       PORTS   AGE
+example-ingress   *       172.17.0.37   80      5m13s
+
+$ kubectl get svc
+NAME             TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+apple-service    ClusterIP   10.106.103.108   <none>        5678/TCP   3m55s
+banana-service   ClusterIP   10.103.82.92     <none>        5678/TCP   4m8s
+kubernetes       ClusterIP   10.96.0.1        <none>        443/TCP    9m37s
+
+
+$ curl -kL http://localhost/apple
+apple
+
+$ curl -kL http://localhost/banana
+banana
+
+$ curl -kL http://localhost/not
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<center><h1>404 Not Found</h1></center>
+<hr><center>openresty/1.15.8.2</center>
+</body>
+</html>
+
+$ vim /etc/hosts
+$ cat /etc/hosts
+127.0.0.1       localhost
+127.0.1.1       host01
+172.17.0.37      fruits.com
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+127.0.0.1 host01
+127.0.0.1 host01
+127.0.0.1 host01
+127.0.0.1 minikube
+
+$ curl fruits.com/banana
+banana

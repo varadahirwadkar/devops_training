@@ -1,0 +1,70 @@
+
+$ sudo mkdir /mnt/data
+$ sudo sh -c "echo 'Hello from Kubernetes storage' > /mnt/data/index.html"
+$ cat /mnt/data/index.html
+Hello from Kubernetes storage
+
+$ vim pv.yaml
+
+$ kubectl apply -f pv.yaml 
+persistentvolume/task-pv-volume created
+
+$ kubectl get pv task-pv-volume
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+task-pv-volume   1Gi        RWO            Retain           Available           manual                  3s
+
+$ vim mypvc.yaml
+
+$ kubectl get pv task-pv-volume
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+task-pv-volume   1Gi        RWO            Retain           Available           manual                  90s
+
+$ kubectl apply -f mypvc.yaml 
+persistentvolumeclaim/task-pv-claim created
+
+$ kubectl get pv task-pv-volume
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                   STORAGECLASS   REASON   AGE
+task-pv-volume   1Gi        RWO            Retain           Bound    default/task-pv-claim   manual                  112s
+
+$ kubectl get pvc
+NAME            STATUS   VOLUME           CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+task-pv-claim   Bound    task-pv-volume   1Gi        RWO            manual         11s
+
+$ kubectl apply -f https://k8s.io/examples/pods/storage/pv-pod.yaml
+pod/task-pv-pod created
+
+$ kubectl get pods
+NAME          READY   STATUS              RESTARTS   AGE
+task-pv-pod   0/1     ContainerCreating   0          8s
+
+$ kubectl get pods
+NAME          READY   STATUS    RESTARTS   AGE
+task-pv-pod   1/1     Running   0          14s
+
+$ kubectl exec -it task-pv-pod -- /bin/bash
+
+root@task-pv-pod:/# apt update
+Get:1 http://deb.debian.org/debian buster InRelease [121 kB]
+Get:2 http://deb.debian.org/debian buster-updates InRelease [51.9 kB]
+Get:3 http://security.debian.org/debian-security buster/updates InRelease [65.4 kB]
+Get:4 http://deb.debian.org/debian buster/main amd64 Packages [7907 kB]
+Get:5 http://deb.debian.org/debian buster-updates/main amd64 Packages [10.9 kB]
+Get:6 http://security.debian.org/debian-security buster/updates/main amd64 Packages [292 kB]
+Fetched 8449 kB in 1s (5869 kB/s)                        
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+2 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+root@task-pv-pod:/# apt install curl
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+curl is already the newest version (7.64.0-4+deb10u2).
+0 upgraded, 0 newly installed, 0 to remove and 2 not upgraded.
+
+root@task-pv-pod:/# curl http://localhost/
+Hello from Kubernetes storage
+
+root@task-pv-pod:/# exit
+exit
