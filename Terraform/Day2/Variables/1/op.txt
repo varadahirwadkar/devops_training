@@ -1,0 +1,33 @@
+C:\Users\varad_ahirwadkar\Desktop\Terraform\day 2\1>terraform refresh
+╷
+│ Warning: Empty or non-existent state
+│
+│ There are currently no resources tracked in the state, so there is nothing to refresh.
+╵
+
+Outputs:
+
+information1 = tolist([
+  "abc",
+  "xyz",
+])
+information2 = tomap({
+  "a" = 1
+  "b" = 2
+})
+information3 = toset([
+  "abc",
+  "xyz",
+])
+information4 = {
+  "age" = 11
+  "fav_food" = tolist([
+    "pizza",
+  ])
+  "isactive" = false
+  "name" = "abc"
+}
+information5 = [
+  "dog",
+  2,
+]

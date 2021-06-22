@@ -1,0 +1,79 @@
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\day 2\1>terraform init
+
+Initializing the backend...
+
+Initializing provider plugins...
+- Finding latest version of hashicorp/local...
+- Installing hashicorp/local v2.1.0...
+- Installed hashicorp/local v2.1.0 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\day 2\1>terraform fmt
+expression.tf
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\day 2\1>terraform validate
+Success! The configuration is valid.
+
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\day 2\1>terraform apply
+var.myvar
+  Enter a value: true
+
+
+Changes to Outputs:
+  + show = "Hello from file!"
+
+You can apply this plan to save these new output values to the Terraform state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+show = "Hello from file!"
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\day 2\1>terraform refresh
+var.myvar
+  Enter a value: false
+
+
+Outputs:
+
+show = "Dont show"
+-------------------------------------------------------------------------------
+EOT:
+-------
+C:\Users\varad_ahirwadkar\Desktop\Terraform\day 2\1>terraform refresh
+var.myvar
+  Enter a value: false
+
+
+Outputs:
+
+show = <<EOT
+  Hi,
+    Hello
+      World!
+
+EOT

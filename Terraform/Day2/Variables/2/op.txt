@@ -1,0 +1,35 @@
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\day 2\1>terraform plan
+
+Changes to Outputs:
+  + age  = 23
+  + name = "varad ahirwadkar"
+
+You can apply this plan to save these new output values to the Terraform state, without changing any real infrastructure.
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply"
+now.
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\day 2\1>terraform apply
+
+Changes to Outputs:
+  + age  = 23
+  + name = "varad ahirwadkar"
+
+You can apply this plan to save these new output values to the Terraform state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+age = 23
+name = "varad ahirwadkar"
