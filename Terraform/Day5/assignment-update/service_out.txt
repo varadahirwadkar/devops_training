@@ -1,0 +1,526 @@
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\Assignment>terraform plan -out ec2_service -var="instance_name=ubuntu_instance_1" -var="instance_type=t2.micro" -var="size=2" -var="volume_name=extra_vol"
+random_id.id: Refreshing state... [id=lrQ]
+tls_private_key.tf_ubuntu_key: Refreshing state... [id=6cc7be75338af32a9e0b06d1120bc01a85c08dbb]
+local_file.private_key: Refreshing state... [id=8289eed618923d1c5862604207838953765545f4]
+aws_key_pair.generated_key: Refreshing state... [id=ubuntu_tf_keys]
+aws_instance.demo_instance: Refreshing state... [id=i-04175e1453ac1236e]
+aws_ebs_volume.myvolume: Refreshing state... [id=vol-07a3d604459df4937]
+aws_volume_attachment.ebs_att: Refreshing state... [id=vai-4281166990]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply":
+
+  # aws_instance.demo_instance has been changed
+  ~ resource "aws_instance" "demo_instance" {
+        id                                   = "i-04175e1453ac1236e"
+        tags                                 = {
+            "Name" = "ubuntu_instance_1-96b4"
+        }
+        # (29 unchanged attributes hidden)
+
+
+
+      + ebs_block_device {
+          + delete_on_termination = false
+          + device_name           = "/dev/sdh"
+          + encrypted             = false
+          + iops                  = 100
+          + tags                  = {
+              + "Name" = "varad-extra_vol"
+            }
+          + throughput            = 0
+          + volume_id             = "vol-07a3d604459df4937"
+          + volume_size           = 2
+          + volume_type           = "gp2"
+        }
+
+
+
+        # (5 unchanged blocks hidden)
+    }
+  # aws_key_pair.generated_key has been changed
+  ~ resource "aws_key_pair" "generated_key" {
+        id          = "ubuntu_tf_keys"
+      + tags        = {}
+        # (6 unchanged attributes hidden)
+    }
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following
+plan may include actions to undo or respond to these changes.
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
+symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # data.http.myfile will be read during apply
+  # (config refers to values not yet known)
+ <= data "http" "myfile"  {
+      + body             = (known after apply)
+      + id               = (known after apply)
+      + response_headers = (known after apply)
+      + url              = "http://13.127.220.170"
+    }
+
+  # local_file.download_file will be created
+  + resource "local_file" "download_file" {
+      + content              = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "out_index_file.html"
+      + id                   = (known after apply)
+    }
+
+  # null_resource.my_http_service will be created
+  + resource "null_resource" "my_http_service" {
+      + id       = (known after apply)
+      + triggers = {
+          + "public_ip" = "***********"
+        }
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: ec2_service
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "ec2_service"
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\Assignment>terraform apply ec2_service
+null_resource.my_http_service: Creating...
+null_resource.my_http_service: Provisioning with 'file'...
+null_resource.my_http_service: Provisioning with 'file'...
+null_resource.my_http_service: Provisioning with 'remote-exec'...
+null_resource.my_http_service (remote-exec): Connecting to remote host via SSH...
+null_resource.my_http_service (remote-exec):   Host: 13.127.220.170
+null_resource.my_http_service (remote-exec):   User: ubuntu
+null_resource.my_http_service (remote-exec):   Password: false
+null_resource.my_http_service (remote-exec):   Private key: true
+null_resource.my_http_service (remote-exec):   Certificate: false
+null_resource.my_http_service (remote-exec):   SSH Agent: false
+null_resource.my_http_service (remote-exec):   Checking Host Key: false
+null_resource.my_http_service (remote-exec):   Target Platform: unix
+null_resource.my_http_service (remote-exec): Connected!
+null_resource.my_http_service (remote-exec): 0% [Working]
+null_resource.my_http_service (remote-exec): Get:1 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal InRelease [265 kB]
+null_resource.my_http_service (remote-exec): 0% [1 InRelease 0 B/265 kB 0%] [Waiting
+null_resource.my_http_service (remote-exec): Get:2 http://security.ubuntu.com/ubuntu focal-security InRelease [114 kB]
+null_resource.my_http_service (remote-exec): 0% [1 InRelease 14.2 kB/265 kB 5%] [2 I
+null_resource.my_http_service (remote-exec): 0% [2 InRelease 77.9 kB/114 kB 68%]
+null_resource.my_http_service (remote-exec): 0% [Waiting for headers]
+null_resource.my_http_service (remote-exec): 0% [Waiting for headers]
+null_resource.my_http_service (remote-exec): Get:3 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates InRelease [114 kB]
+null_resource.my_http_service (remote-exec): 0% [3 InRelease 14.2 kB/114 kB 13%]
+null_resource.my_http_service (remote-exec): 0% [Waiting for headers]
+null_resource.my_http_service (remote-exec): 0% [Waiting for headers]
+null_resource.my_http_service (remote-exec): 0% [Waiting for headers] [Waiting for h
+null_resource.my_http_service (remote-exec): Get:4 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-backports InRelease [101 kB]
+null_resource.my_http_service (remote-exec): 0% [4 InRelease 2653 B/101 kB 3%] [Wait
+null_resource.my_http_service (remote-exec): 0% [Waiting for headers]
+null_resource.my_http_service (remote-exec): Get:5 http://security.ubuntu.com/ubuntu focal-security/main amd64 Packages [741 kB]
+null_resource.my_http_service (remote-exec): 0% [Waiting for headers] [5 Packages 26
+null_resource.my_http_service (remote-exec): 14% [Waiting for headers] [5 Packages 8
+null_resource.my_http_service (remote-exec): Get:6 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/universe amd64 Packages [8628 kB]
+null_resource.my_http_service (remote-exec): 14% [6 Packages 2651 B/8628 kB 0%] [5 P
+null_resource.my_http_service (remote-exec): 28% [6 Packages 3036 kB/8628 kB 35%] [5
+null_resource.my_http_service (remote-exec): 36% [6 Packages 4590 kB/8628 kB 53%]
+null_resource.my_http_service (remote-exec): 36% [5 Packages store 0 B] [6 Packages
+null_resource.my_http_service (remote-exec): 42% [6 Packages 6214 kB/8628 kB 72%] [W
+null_resource.my_http_service (remote-exec): Get:7 http://security.ubuntu.com/ubuntu focal-security/main Translation-en [146 kB]
+null_resource.my_http_service (remote-exec): 45% [6 Packages 6788 kB/8628 kB 79%] [7
+null_resource.my_http_service (remote-exec): Get:8 http://security.ubuntu.com/ubuntu focal-security/main amd64 c-n-f Metadata [7960 B]
+null_resource.my_http_service (remote-exec): 47% [6 Packages 7126 kB/8628 kB 83%] [8
+null_resource.my_http_service (remote-exec): 47% [7 Translation-en store 0 B] [6 Pac
+null_resource.my_http_service (remote-exec): Get:9 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 Packages [282 kB]
+null_resource.my_http_service (remote-exec): 47% [7 Translation-en store 0 B] [6 Pac
+null_resource.my_http_service (remote-exec): Get:10 http://security.ubuntu.com/ubuntu focal-security/restricted Translation-en [40.9 kB]
+null_resource.my_http_service (remote-exec): 51% [7 Translation-en store 0 B] [6 Pac
+null_resource.my_http_service (remote-exec): 51% [6 Packages 7833 kB/8628 kB 91%] [1
+null_resource.my_http_service (remote-exec): 51% [8 Commands-amd64 store 0 B] [6 Pac
+null_resource.my_http_service (remote-exec): 52% [6 Packages 7852 kB/8628 kB 91%] [1
+null_resource.my_http_service (remote-exec): 52% [9 Packages store 0 B] [6 Packages
+null_resource.my_http_service (remote-exec): Get:11 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 c-n-f Metadata [456 B]
+null_resource.my_http_service (remote-exec): Get:12 http://security.ubuntu.com/ubuntu focal-security/universe amd64 Packages [628 kB]
+null_resource.my_http_service (remote-exec): 52% [9 Packages store 0 B] [6 Packages
+null_resource.my_http_service (remote-exec): 56% [6 Packages 8585 kB/8628 kB 100%] [
+null_resource.my_http_service (remote-exec): 56% [10 Translation-en store 0 B] [6 Pa
+null_resource.my_http_service (remote-exec): 57% [6 Packages 8628 kB/8628 kB 100%] [
+null_resource.my_http_service (remote-exec): 57% [11 Commands-amd64 store 0 B] [6 Pa
+null_resource.my_http_service (remote-exec): 57% [6 Packages 8628 kB/8628 kB 100%] [
+null_resource.my_http_service (remote-exec): Get:13 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/universe Translation-en [5124 kB]
+null_resource.my_http_service (remote-exec): 58% [13 Translation-en 328 kB/5124 kB 6
+null_resource.my_http_service (remote-exec): 58% [6 Packages store 0 B] [13 Translat
+null_resource.my_http_service (remote-exec): Get:14 http://security.ubuntu.com/ubuntu focal-security/universe Translation-en [95.9 kB]
+null_resource.my_http_service (remote-exec): 63% [6 Packages store 0 B] [13 Translat
+null_resource.my_http_service (remote-exec): 64% [6 Packages store 0 B] [13 Translat
+null_resource.my_http_service (remote-exec): Get:15 http://security.ubuntu.com/ubuntu focal-security/universe amd64 c-n-f Metadata [11.6 kB]
+null_resource.my_http_service (remote-exec): 64% [6 Packages store 0 B] [13 Translat
+null_resource.my_http_service (remote-exec): Get:16 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 Packages [19.9 kB]
+null_resource.my_http_service (remote-exec): 64% [6 Packages store 0 B] [13 Translat
+null_resource.my_http_service (remote-exec): Get:17 http://security.ubuntu.com/ubuntu focal-security/multiverse Translation-en [4316 B]
+null_resource.my_http_service (remote-exec): 64% [6 Packages store 0 B] [13 Translat
+null_resource.my_http_service (remote-exec): Get:18 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 c-n-f Metadata [528 B]
+null_resource.my_http_service (remote-exec): 64% [6 Packages store 0 B] [13 Translat
+null_resource.my_http_service (remote-exec): Get:19 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/universe amd64 c-n-f Metadata [265 kB]
+null_resource.my_http_service (remote-exec): 80% [6 Packages store 0 B] [19 Commands
+null_resource.my_http_service (remote-exec): Get:20 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/multiverse amd64 Packages [144 kB]
+null_resource.my_http_service (remote-exec): 81% [6 Packages store 0 B] [20 Packages
+null_resource.my_http_service (remote-exec): Get:21 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/multiverse Translation-en [104 kB]
+null_resource.my_http_service (remote-exec): 81% [6 Packages store 0 B] [21 Translat
+null_resource.my_http_service (remote-exec): Get:22 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/multiverse amd64 c-n-f Metadata [9136 B]
+null_resource.my_http_service (remote-exec): Get:23 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [1077 kB]
+null_resource.my_http_service (remote-exec): 82% [6 Packages store 0 B] [23 Packages
+null_resource.my_http_service (remote-exec): Get:24 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main Translation-en [237 kB]
+null_resource.my_http_service (remote-exec): 86% [6 Packages store 0 B] [24 Translat
+null_resource.my_http_service (remote-exec): Get:25 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 c-n-f Metadata [13.6 kB]
+null_resource.my_http_service (remote-exec): 87% [6 Packages store 0 B] [25 Commands
+null_resource.my_http_service (remote-exec): 87% [6 Packages store 0 B] [Waiting for
+null_resource.my_http_service (remote-exec): Get:26 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/restricted amd64 Packages [314 kB]
+null_resource.my_http_service (remote-exec): 87% [6 Packages store 0 B] [26 Packages
+null_resource.my_http_service (remote-exec): Get:27 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/restricted Translation-en [45.7 kB]
+null_resource.my_http_service (remote-exec): 88% [6 Packages store 0 B] [27 Translat
+null_resource.my_http_service (remote-exec): Get:28 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/restricted amd64 c-n-f Metadata [456 B]
+null_resource.my_http_service (remote-exec): 89% [6 Packages store 0 B] [Waiting for
+null_resource.my_http_service (remote-exec): Get:29 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [825 kB]
+null_resource.my_http_service (remote-exec): 89% [6 Packages store 0 B] [29 Packages
+null_resource.my_http_service (remote-exec): 92% [6 Packages store 0 B] [Waiting for
+null_resource.my_http_service (remote-exec): Get:30 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/universe Translation-en [172 kB]
+null_resource.my_http_service (remote-exec): 92% [6 Packages store 0 B] [30 Translat
+null_resource.my_http_service (remote-exec): Get:31 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/universe amd64 c-n-f Metadata [17.8 kB]
+null_resource.my_http_service: Still creating... [10s elapsed]
+null_resource.my_http_service (remote-exec): 93% [6 Packages store 0 B] [31 Commands
+null_resource.my_http_service (remote-exec): Get:32 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 Packages [23.6 kB]
+null_resource.my_http_service (remote-exec): 93% [6 Packages store 0 B] [32 Packages
+null_resource.my_http_service (remote-exec): Get:33 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/multiverse Translation-en [6376 B]
+null_resource.my_http_service (remote-exec): Get:34 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 c-n-f Metadata [648 B]
+null_resource.my_http_service (remote-exec): Get:35 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-backports/main amd64 c-n-f Metadata [112 B]
+null_resource.my_http_service (remote-exec): Get:36 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-backports/restricted amd64 c-n-f Metadata [116 B]
+null_resource.my_http_service (remote-exec): Get:37 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-backports/universe amd64 Packages [4032 B]
+null_resource.my_http_service (remote-exec): 93% [6 Packages store 0 B] [Waiting for
+null_resource.my_http_service (remote-exec): Get:38 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-backports/universe Translation-en [1448 B]
+null_resource.my_http_service (remote-exec): 93% [6 Packages store 0 B] [Waiting for
+null_resource.my_http_service (remote-exec): Get:39 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-backports/universe amd64 c-n-f Metadata [224 B]
+null_resource.my_http_service (remote-exec): Get:40 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-backports/multiverse amd64 c-n-f Metadata [116 B]
+null_resource.my_http_service (remote-exec): 93% [6 Packages store 0 B]
+null_resource.my_http_service (remote-exec): 93% [Working]
+null_resource.my_http_service (remote-exec): 93% [12 Packages store 0 B]
+null_resource.my_http_service (remote-exec): 93% [Working]
+null_resource.my_http_service (remote-exec): 93% [14 Translation-en store 0 B]
+null_resource.my_http_service (remote-exec): 94% [Working]
+null_resource.my_http_service (remote-exec): 94% [15 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 94% [Working]
+null_resource.my_http_service (remote-exec): 94% [16 Packages store 0 B]
+null_resource.my_http_service (remote-exec): 94% [Working]
+null_resource.my_http_service (remote-exec): 94% [17 Translation-en store 0 B]
+null_resource.my_http_service (remote-exec): 94% [Working]
+null_resource.my_http_service (remote-exec): 94% [18 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 95% [Working]
+null_resource.my_http_service (remote-exec): 95% [13 Translation-en store 0 B]
+null_resource.my_http_service (remote-exec): 95% [13 Translation-en store 0 B]
+null_resource.my_http_service (remote-exec): 95% [Working]
+null_resource.my_http_service (remote-exec): 95% [19 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 95% [Working]
+null_resource.my_http_service (remote-exec): 95% [20 Packages store 0 B]
+null_resource.my_http_service (remote-exec): 95% [Working]
+null_resource.my_http_service (remote-exec): 95% [21 Translation-en store 0 B]
+null_resource.my_http_service (remote-exec): 95% [Working]
+null_resource.my_http_service (remote-exec): 95% [22 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 96% [Working]
+null_resource.my_http_service (remote-exec): 96% [23 Packages store 0 B]
+null_resource.my_http_service (remote-exec): 96% [Working]
+null_resource.my_http_service (remote-exec): 96% [24 Translation-en store 0 B]
+null_resource.my_http_service (remote-exec): 96% [Working]
+null_resource.my_http_service (remote-exec): 96% [25 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 96% [Working]
+null_resource.my_http_service (remote-exec): 96% [26 Packages store 0 B]
+null_resource.my_http_service (remote-exec): 97% [Working]
+null_resource.my_http_service (remote-exec): 97% [27 Translation-en store 0 B]
+null_resource.my_http_service (remote-exec): 97% [Working]
+null_resource.my_http_service (remote-exec): 97% [28 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 97% [Working]
+null_resource.my_http_service (remote-exec): 97% [29 Packages store 0 B]
+null_resource.my_http_service (remote-exec): 97% [Working]
+null_resource.my_http_service (remote-exec): 97% [30 Translation-en store 0 B]
+null_resource.my_http_service (remote-exec): 98% [Working]
+null_resource.my_http_service (remote-exec): 98% [31 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 98% [Working]
+null_resource.my_http_service (remote-exec): 98% [32 Packages store 0 B]
+null_resource.my_http_service (remote-exec): 98% [Working]
+null_resource.my_http_service (remote-exec): 98% [33 Translation-en store 0 B]
+null_resource.my_http_service (remote-exec): 98% [Working]
+null_resource.my_http_service (remote-exec): 98% [34 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 99% [Working]
+null_resource.my_http_service (remote-exec): 99% [35 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 99% [Working]
+null_resource.my_http_service (remote-exec): 99% [36 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 99% [Working]
+null_resource.my_http_service (remote-exec): 99% [37 Packages store 0 B]
+null_resource.my_http_service (remote-exec): 99% [Working]
+null_resource.my_http_service (remote-exec): 99% [38 Translation-en store 0 B]
+null_resource.my_http_service (remote-exec): 100% [Working]
+null_resource.my_http_service (remote-exec): 100% [39 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 100% [Working]
+null_resource.my_http_service (remote-exec): 100% [40 Commands-amd64 store 0 B]
+null_resource.my_http_service (remote-exec): 100% [Working]
+null_resource.my_http_service (remote-exec): Fetched 19.6 MB in 5s (3845 kB/s)
+null_resource.my_http_service (remote-exec): Reading package lists... 0%
+null_resource.my_http_service (remote-exec): Reading package lists... 0%
+null_resource.my_http_service (remote-exec): Reading package lists... 0%
+null_resource.my_http_service (remote-exec): Reading package lists... 4%
+null_resource.my_http_service (remote-exec): Reading package lists... 4%
+null_resource.my_http_service (remote-exec): Reading package lists... 7%
+null_resource.my_http_service (remote-exec): Reading package lists... 7%
+null_resource.my_http_service (remote-exec): Reading package lists... 7%
+null_resource.my_http_service (remote-exec): Reading package lists... 7%
+null_resource.my_http_service (remote-exec): Reading package lists... 7%
+null_resource.my_http_service (remote-exec): Reading package lists... 7%
+null_resource.my_http_service (remote-exec): Reading package lists... 49%
+null_resource.my_http_service (remote-exec): Reading package lists... 49%
+null_resource.my_http_service (remote-exec): Reading package lists... 71%
+null_resource.my_http_service (remote-exec): Reading package lists... 71%
+null_resource.my_http_service (remote-exec): Reading package lists... 72%
+null_resource.my_http_service (remote-exec): Reading package lists... 72%
+null_resource.my_http_service (remote-exec): Reading package lists... 72%
+null_resource.my_http_service (remote-exec): Reading package lists... 72%
+null_resource.my_http_service (remote-exec): Reading package lists... 77%
+null_resource.my_http_service (remote-exec): Reading package lists... 77%
+null_resource.my_http_service (remote-exec): Reading package lists... 80%
+null_resource.my_http_service (remote-exec): Reading package lists... 80%
+null_resource.my_http_service (remote-exec): Reading package lists... 81%
+null_resource.my_http_service (remote-exec): Reading package lists... 81%
+null_resource.my_http_service (remote-exec): Reading package lists... 82%
+null_resource.my_http_service (remote-exec): Reading package lists... 82%
+null_resource.my_http_service (remote-exec): Reading package lists... 85%
+null_resource.my_http_service (remote-exec): Reading package lists... 86%
+null_resource.my_http_service (remote-exec): Reading package lists... 86%
+null_resource.my_http_service (remote-exec): Reading package lists... 87%
+null_resource.my_http_service (remote-exec): Reading package lists... 87%
+null_resource.my_http_service (remote-exec): Reading package lists... 87%
+null_resource.my_http_service (remote-exec): Reading package lists... 87%
+null_resource.my_http_service (remote-exec): Reading package lists... 87%
+null_resource.my_http_service (remote-exec): Reading package lists... 87%
+null_resource.my_http_service (remote-exec): Reading package lists... 87%
+null_resource.my_http_service (remote-exec): Reading package lists... 87%
+null_resource.my_http_service (remote-exec): Reading package lists... 87%
+null_resource.my_http_service (remote-exec): Reading package lists... 87%
+null_resource.my_http_service (remote-exec): Reading package lists... 91%
+null_resource.my_http_service (remote-exec): Reading package lists... 91%
+null_resource.my_http_service (remote-exec): Reading package lists... 93%
+null_resource.my_http_service (remote-exec): Reading package lists... 93%
+null_resource.my_http_service (remote-exec): Reading package lists... 94%
+null_resource.my_http_service (remote-exec): Reading package lists... 94%
+null_resource.my_http_service (remote-exec): Reading package lists... 95%
+null_resource.my_http_service (remote-exec): Reading package lists... 95%
+null_resource.my_http_service (remote-exec): Reading package lists... 98%
+null_resource.my_http_service (remote-exec): Reading package lists... 98%
+null_resource.my_http_service (remote-exec): Reading package lists... 99%
+null_resource.my_http_service (remote-exec): Reading package lists... 99%
+null_resource.my_http_service (remote-exec): Reading package lists... 99%
+null_resource.my_http_service (remote-exec): Reading package lists... 99%
+null_resource.my_http_service (remote-exec): Reading package lists... 99%
+null_resource.my_http_service (remote-exec): Reading package lists... 99%
+null_resource.my_http_service (remote-exec): Reading package lists... Done
+null_resource.my_http_service (remote-exec): Reading package lists... 0%
+null_resource.my_http_service (remote-exec): Reading package lists... 100%
+null_resource.my_http_service (remote-exec): Reading package lists... Done
+null_resource.my_http_service (remote-exec): Building dependency tree... 0%
+null_resource.my_http_service (remote-exec): Building dependency tree... 0%
+null_resource.my_http_service (remote-exec): Building dependency tree... 50%
+null_resource.my_http_service (remote-exec): Building dependency tree... 50%
+null_resource.my_http_service (remote-exec): Building dependency tree
+null_resource.my_http_service (remote-exec): Reading state information... 0%
+null_resource.my_http_service (remote-exec): Reading state information... 0%
+null_resource.my_http_service (remote-exec): Reading state information... Done
+null_resource.my_http_service (remote-exec): The following additional packages will be installed:
+null_resource.my_http_service (remote-exec):   apache2-bin apache2-data
+null_resource.my_http_service (remote-exec):   apache2-utils libapr1 libaprutil1
+null_resource.my_http_service (remote-exec):   libaprutil1-dbd-sqlite3
+null_resource.my_http_service (remote-exec):   libaprutil1-ldap libjansson4
+null_resource.my_http_service (remote-exec):   liblua5.2-0 ssl-cert
+null_resource.my_http_service (remote-exec): Suggested packages:
+null_resource.my_http_service (remote-exec):   apache2-doc apache2-suexec-pristine
+null_resource.my_http_service (remote-exec):   | apache2-suexec-custom www-browser
+null_resource.my_http_service (remote-exec):   openssl-blacklist
+null_resource.my_http_service (remote-exec): The following NEW packages will be installed:
+null_resource.my_http_service (remote-exec):   apache2 apache2-bin apache2-data
+null_resource.my_http_service (remote-exec):   apache2-utils libapr1 libaprutil1
+null_resource.my_http_service (remote-exec):   libaprutil1-dbd-sqlite3
+null_resource.my_http_service (remote-exec):   libaprutil1-ldap libjansson4
+null_resource.my_http_service (remote-exec):   liblua5.2-0 ssl-cert
+null_resource.my_http_service (remote-exec): 0 upgraded, 11 newly installed, 0 to remove and 76 not upgraded.
+null_resource.my_http_service (remote-exec): Need to get 1864 kB of archives.
+null_resource.my_http_service (remote-exec): After this operation, 8083 kB of additional disk space will be used.
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 0% [Working]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 0% [Waiting for headers]
+null_resource.my_http_service (remote-exec): Get:1 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libapr1 amd64 1.6.5-1ubuntu1 [91.4 kB]
+null_resource.my_http_service: Still creating... [20s elapsed]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 0% [1 libapr1 0 B/91.4 kB 0%]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 6% [Working]
+null_resource.my_http_service (remote-exec): Get:2 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libaprutil1 amd64 1.6.1-4ubuntu2 [84.7 kB]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 6% [2 libaprutil1 0 B/84.7 kB 0%]
+null_resource.my_http_service (remote-exec): 11% [Working]
+null_resource.my_http_service (remote-exec): Get:3 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libaprutil1-dbd-sqlite3 amd64 1.6.1-4ubuntu2 [10.5 kB]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 11% [3 libaprutil1-dbd-sqlite3 0 B/10.5
+null_resource.my_http_service (remote-exec): 13% [Working]
+null_resource.my_http_service (remote-exec): Get:4 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libaprutil1-ldap amd64 1.6.1-4ubuntu2 [8736 B]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 13% [4 libaprutil1-ldap 0 B/8736 B 0%]
+null_resource.my_http_service (remote-exec): 16% [Working]
+null_resource.my_http_service (remote-exec): Get:5 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 libjansson4 amd64 2.12-1build1 [28.9 kB]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 16% [5 libjansson4 0 B/28.9 kB 0%]
+null_resource.my_http_service (remote-exec): 19% [Working]
+null_resource.my_http_service (remote-exec): Get:6 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 liblua5.2-0 amd64 5.2.4-1.1build3 [106 kB]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 19% [6 liblua5.2-0 0 B/106 kB 0%]
+null_resource.my_http_service (remote-exec): 25% [Working]
+null_resource.my_http_service (remote-exec): Get:7 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 apache2-bin amd64 2.4.41-4ubuntu3.3 [1179 kB]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 25% [7 apache2-bin 0 B/1179 kB 0%]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 77% [Working]
+null_resource.my_http_service (remote-exec): Get:8 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 apache2-data all 2.4.41-4ubuntu3.3 [159 kB]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 77% [8 apache2-data 0 B/159 kB 0%]
+null_resource.my_http_service (remote-exec): 86% [Working]
+null_resource.my_http_service (remote-exec): Get:9 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 apache2-utils amd64 2.4.41-4ubuntu3.3 [84.0 kB]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 86% [9 apache2-utils 0 B/84.0 kB 0%]
+null_resource.my_http_service (remote-exec): 92% [Working]
+null_resource.my_http_service (remote-exec): Get:10 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal-updates/main amd64 apache2 amd64 2.4.41-4ubuntu3.3 [95.5 kB]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 92% [10 apache2 0 B/95.5 kB 0%]
+null_resource.my_http_service (remote-exec): 97% [Working]
+null_resource.my_http_service (remote-exec): Get:11 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu focal/main amd64 ssl-cert all 1.0.39 [17.0 kB]
+null_resource.my_http_service (remote-exec):
+null_resource.my_http_service (remote-exec): 97% [11 ssl-cert 0 B/17.0 kB 0%]
+null_resource.my_http_service (remote-exec): 100% [Working]
+null_resource.my_http_service (remote-exec): Fetched 1864 kB in 2s (956 kB/s)
+null_resource.my_http_service (remote-exec): Preconfiguring packages ...
+                                             Selecting previously unselected package libapr1:amd64.
+null_resource.my_http_service (remote-exec): (Reading database ...
+null_resource.my_http_service (remote-exec): (Reading database ... 5%
+null_resource.my_http_service (remote-exec): (Reading database ... 10%
+null_resource.my_http_service (remote-exec): (Reading database ... 15%
+null_resource.my_http_service (remote-exec): (Reading database ... 20%
+null_resource.my_http_service (remote-exec): (Reading database ... 25%
+null_resource.my_http_service (remote-exec): (Reading database ... 30%
+null_resource.my_http_service (remote-exec): (Reading database ... 35%
+null_resource.my_http_service (remote-exec): (Reading database ... 40%
+null_resource.my_http_service (remote-exec): (Reading database ... 45%
+null_resource.my_http_service (remote-exec): (Reading database ... 50%
+null_resource.my_http_service (remote-exec): (Reading database ... 55%
+null_resource.my_http_service (remote-exec): (Reading database ... 60%
+null_resource.my_http_service (remote-exec): (Reading database ... 65%
+null_resource.my_http_service (remote-exec): (Reading database ... 70%
+null_resource.my_http_service (remote-exec): (Reading database ... 75%
+null_resource.my_http_service (remote-exec): (Reading database ... 80%
+null_resource.my_http_service (remote-exec): (Reading database ... 85%
+null_resource.my_http_service (remote-exec): (Reading database ... 90%
+null_resource.my_http_service (remote-exec): (Reading database ... 95%
+null_resource.my_http_service (remote-exec): (Reading database ... 100%
+null_resource.my_http_service (remote-exec): (Reading database ... 60149 files and directories currently installed.)
+null_resource.my_http_service (remote-exec): Preparing to unpack .../00-libapr1_1.6.5-1ubuntu1_amd64.deb ...
+Progress: [  2%] [..................] exec): Unpacking libapr1:amd64 (1.6.5-1ubuntu1) ...
+Progress: [  4%] [..................] exec): Selecting previously unselected package libaprutil1:amd64.
+null_resource.my_http_service (remote-exec): Preparing to unpack .../01-libaprutil1_1.6.1-4ubuntu2_amd64.deb ...
+Progress: [  7%] [#.................] exec): Unpacking libaprutil1:amd64 (1.6.1-4ubuntu2) ...
+Progress: [  9%] [#.................] exec): Selecting previously unselected package libaprutil1-dbd-sqlite3:amd64.
+null_resource.my_http_service (remote-exec): Preparing to unpack .../02-libaprutil1-dbd-sqlite3_1.6.1-4ubuntu2_amd64.deb ...
+Progress: [ 11%] [#.................] exec): Unpacking libaprutil1-dbd-sqlite3:amd64 (1.6.1-4ubuntu2) ...
+Progress: [ 13%] [##................] exec): Selecting previously unselected package libaprutil1-ldap:amd64.
+null_resource.my_http_service (remote-exec): Preparing to unpack .../03-libaprutil1-ldap_1.6.1-4ubuntu2_amd64.deb ...
+Progress: [ 16%] [##................] exec): Unpacking libaprutil1-ldap:amd64 (1.6.1-4ubuntu2) ...
+Progress: [ 18%] [###...............] exec): Selecting previously unselected package libjansson4:amd64.
+null_resource.my_http_service (remote-exec): Preparing to unpack .../04-libjansson4_2.12-1build1_amd64.deb ...
+Progress: [ 20%] [###...............] exec): Unpacking libjansson4:amd64 (2.12-1build1) ...
+Progress: [ 22%] [###...............] exec): Selecting previously unselected package liblua5.2-0:amd64.
+null_resource.my_http_service (remote-exec): Preparing to unpack .../05-liblua5.2-0_5.2.4-1.1build3_amd64.deb ...
+Progress: [ 24%] [####..............] exec): Unpacking liblua5.2-0:amd64 (5.2.4-1.1build3) ...
+Progress: [ 27%] [####..............] exec): Selecting previously unselected package apache2-bin.
+null_resource.my_http_service (remote-exec): Preparing to unpack .../06-apache2-bin_2.4.41-4ubuntu3.3_amd64.deb ...
+Progress: [ 29%] [#####.............] exec): Unpacking apache2-bin (2.4.41-4ubuntu3.3) ...
+Progress: [ 31%] [#####.............] exec): Selecting previously unselected package apache2-data.
+null_resource.my_http_service (remote-exec): Preparing to unpack .../07-apache2-data_2.4.41-4ubuntu3.3_all.deb ...
+Progress: [ 33%] [#####.............] exec): Unpacking apache2-data (2.4.41-4ubuntu3.3) ...
+Progress: [ 36%] [######............] exec): Selecting previously unselected package apache2-utils.
+null_resource.my_http_service (remote-exec): Preparing to unpack .../08-apache2-utils_2.4.41-4ubuntu3.3_amd64.deb ...
+Progress: [ 38%] [######............] exec): Unpacking apache2-utils (2.4.41-4ubuntu3.3) ...
+Progress: [ 40%] [#######...........] exec): Selecting previously unselected package apache2.
+null_resource.my_http_service (remote-exec): Preparing to unpack .../09-apache2_2.4.41-4ubuntu3.3_amd64.deb ...
+Progress: [ 42%] [#######...........] exec): Unpacking apache2 (2.4.41-4ubuntu3.3) ...
+Progress: [ 44%] [#######...........] exec): Selecting previously unselected package ssl-cert.
+null_resource.my_http_service (remote-exec): Preparing to unpack .../10-ssl-cert_1.0.39_all.deb ...
+Progress: [ 47%] [########..........] exec): Unpacking ssl-cert (1.0.39) ...
+Progress: [ 49%] [########..........] exec): Setting up libapr1:amd64 (1.6.5-1ubuntu1) ...
+Progress: [ 53%] [#########.........] exec): Setting up libjansson4:amd64 (2.12-1build1) ...
+Progress: [ 58%] [##########........] exec): Setting up ssl-cert (1.0.39) ...
+Progress: [ 60%] [##########........] exec):
+Progress: [ 62%] [###########.......] exec): Setting up liblua5.2-0:amd64 (5.2.4-1.1build3) ...
+Progress: [ 67%] [###########.......] exec): Setting up apache2-data (2.4.41-4ubuntu3.3) ...
+Progress: [ 71%] [############......] exec): Setting up libaprutil1:amd64 (1.6.1-4ubuntu2) ...
+Progress: [ 76%] [#############.....] exec): Setting up libaprutil1-ldap:amd64 (1.6.1-4ubuntu2) ...
+Progress: [ 80%] [##############....] exec): Setting up libaprutil1-dbd-sqlite3:amd64 (1.6.1-4ubuntu2) ...
+Progress: [ 84%] [###############...] exec): Setting up apache2-utils (2.4.41-4ubuntu3.3) ...
+Progress: [ 89%] [###############...] exec): Setting up apache2-bin (2.4.41-4ubuntu3.3) ...
+Progress: [ 93%] [################..] exec): Setting up apache2 (2.4.41-4ubuntu3.3) ...
+Progress: [ 96%] [#################.] exec): Enabling module mpm_event.
+null_resource.my_http_service (remote-exec): Enabling module authz_core.
+null_resource.my_http_service (remote-exec): Enabling module authz_host.
+null_resource.my_http_service (remote-exec): Enabling module authn_core.
+null_resource.my_http_service (remote-exec): Enabling module auth_basic.
+null_resource.my_http_service (remote-exec): Enabling module access_compat.
+null_resource.my_http_service (remote-exec): Enabling module authn_file.
+null_resource.my_http_service (remote-exec): Enabling module authz_user.
+null_resource.my_http_service (remote-exec): Enabling module alias.
+null_resource.my_http_service (remote-exec): Enabling module dir.
+null_resource.my_http_service (remote-exec): Enabling module autoindex.
+null_resource.my_http_service (remote-exec): Enabling module env.
+null_resource.my_http_service (remote-exec): Enabling module mime.
+null_resource.my_http_service (remote-exec): Enabling module negotiation.
+null_resource.my_http_service (remote-exec): Enabling module setenvif.
+null_resource.my_http_service (remote-exec): Enabling module filter.
+null_resource.my_http_service (remote-exec): Enabling module deflate.
+null_resource.my_http_service (remote-exec): Enabling module status.
+null_resource.my_http_service (remote-exec): Enabling module reqtimeout.
+null_resource.my_http_service (remote-exec): Enabling conf charset.
+null_resource.my_http_service (remote-exec): Enabling conf localized-error-pages.
+null_resource.my_http_service (remote-exec): Enabling conf other-vhosts-access-log.
+null_resource.my_http_service (remote-exec): Enabling conf security.
+null_resource.my_http_service (remote-exec): Enabling conf serve-cgi-bin.
+null_resource.my_http_service (remote-exec): Enabling site 000-default.
+null_resource.my_http_service (remote-exec): Created symlink /etc/systemd/system/multi-user.target.wants/apache2.service → /lib/systemd/system/apache2.service.
+null_resource.my_http_service (remote-exec): Created symlink /etc/systemd/system/multi-user.target.wants/apache-htcacheclean.service → /lib/systemd/system/apache-htcacheclean.service.
+Progress: [ 98%] [#################.] exec): Processing triggers for ufw (0.36-6) ...
+null_resource.my_http_service (remote-exec): Processing triggers for systemd (245.4-4ubuntu3.6) ...
+null_resource.my_http_service (remote-exec): Processing triggers for man-db (2.9.1-1) ...
+null_resource.my_http_service (remote-exec): Processing triggers for libc-bin (2.31-0ubuntu9.2) ...
+
+null_resource.my_http_service: Still creating... [30s elapsed]
+null_resource.my_http_service (remote-exec): Synchronizing state of apache2.service with SysV service script with /lib/systemd/systemd-sysv-install.
+null_resource.my_http_service (remote-exec): Executing: /lib/systemd/systemd-sysv-install enable apache2
+null_resource.my_http_service (remote-exec): Synchronizing state of apache2.service with SysV service script with /lib/systemd/systemd-sysv-install.
+null_resource.my_http_service (remote-exec): Executing: /lib/systemd/systemd-sysv-install enable apache2
+null_resource.my_http_service: Creation complete after 34s [id=8704305312783858643]
+data.http.myfile: Reading...
+data.http.myfile: Read complete after 0s [id=http://13.127.220.170]
+local_file.download_file: Creating...
+local_file.download_file: Creation complete after 1s [id=76d4cfaec23d7e7f3c4411017189b9f71e80d283]
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\Assignment>

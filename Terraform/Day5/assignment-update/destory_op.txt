@@ -1,0 +1,279 @@
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\Assignment>terraform destroy -var="instance_name=ubuntu_instance_1" -var="instance_type=t2.micro" -var="size=2" -var="volume_name=extra_vol"
+random_id.id: Refreshing state... [id=lrQ]
+tls_private_key.tf_ubuntu_key: Refreshing state... [id=6cc7be75338af32a9e0b06d1120bc01a85c08dbb]
+local_file.private_key: Refreshing state... [id=8289eed618923d1c5862604207838953765545f4]
+aws_key_pair.generated_key: Refreshing state... [id=ubuntu_tf_keys]
+aws_instance.demo_instance: Refreshing state... [id=i-04175e1453ac1236e]
+null_resource.my_http_service: Refreshing state... [id=8704305312783858643]
+aws_ebs_volume.myvolume: Refreshing state... [id=vol-07a3d604459df4937]
+local_file.download_file: Refreshing state... [id=76d4cfaec23d7e7f3c4411017189b9f71e80d283]
+aws_volume_attachment.ebs_att: Refreshing state... [id=vai-4281166990]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
+symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_ebs_volume.myvolume will be destroyed
+  - resource "aws_ebs_volume" "myvolume" {
+      - arn                  = "arn:aws:ec2:ap-south-1:951333072813:volume/vol-07a3d604459df4937" -> null
+      - availability_zone    = "ap-south-1a" -> null
+      - encrypted            = false -> null
+      - id                   = "vol-07a3d604459df4937" -> null
+      - iops                 = 100 -> null
+      - multi_attach_enabled = false -> null
+      - size                 = 2 -> null
+      - tags                 = {
+          - "Name" = "varad-extra_vol"
+        } -> null
+      - tags_all             = {
+          - "Name" = "varad-extra_vol"
+        } -> null
+      - throughput           = 0 -> null
+      - type                 = "gp2" -> null
+    }
+
+  # aws_instance.demo_instance will be destroyed
+  - resource "aws_instance" "demo_instance" {
+      - ami                                  = "ami-0c1a7f89451184c8b" -> null
+      - arn                                  = "arn:aws:ec2:ap-south-1:951333072813:instance/i-04175e1453ac1236e" -> null
+      - associate_public_ip_address          = true -> null
+      - availability_zone                    = "ap-south-1a" -> null
+      - cpu_core_count                       = 1 -> null
+      - cpu_threads_per_core                 = 1 -> null
+      - disable_api_termination              = false -> null
+      - ebs_optimized                        = false -> null
+      - get_password_data                    = false -> null
+      - hibernation                          = false -> null
+      - id                                   = "i-04175e1453ac1236e" -> null
+      - instance_initiated_shutdown_behavior = "stop" -> null
+      - instance_state                       = "running" -> null
+      - instance_type                        = "t2.micro" -> null
+      - ipv6_address_count                   = 0 -> null
+      - ipv6_addresses                       = [] -> null
+      - key_name                             = "ubuntu_tf_keys" -> null
+      - monitoring                           = false -> null
+      - primary_network_interface_id         = "eni-020555aac5bf275fe" -> null
+      - private_dns                          = "ip-172-31-44-46.ap-south-1.compute.internal" -> null
+      - private_ip                           = "172.31.44.46" -> null
+      - public_dns                           = "ec2-13-127-220-170.ap-south-1.compute.amazonaws.com" -> null
+      - public_ip                            = "13.127.220.170" -> null
+      - secondary_private_ips                = [] -> null
+      - security_groups                      = [
+          - "default",
+        ] -> null
+      - source_dest_check                    = true -> null
+      - subnet_id                            = "subnet-27676e4f" -> null
+      - tags                                 = {
+          - "Name" = "ubuntu_instance_1-96b4"
+        } -> null
+      - tags_all                             = {
+          - "Name" = "ubuntu_instance_1-96b4"
+        } -> null
+      - tenancy                              = "default" -> null
+      - vpc_security_group_ids               = [
+          - "sg-18fa2a7f",
+        ] -> null
+
+      - capacity_reservation_specification {
+          - capacity_reservation_preference = "open" -> null
+        }
+
+      - credit_specification {
+          - cpu_credits = "standard" -> null
+        }
+
+      - ebs_block_device {
+          - delete_on_termination = false -> null
+          - device_name           = "/dev/sdh" -> null
+          - encrypted             = false -> null
+          - iops                  = 100 -> null
+          - tags                  = {
+              - "Name" = "varad-extra_vol"
+            } -> null
+          - throughput            = 0 -> null
+          - volume_id             = "vol-07a3d604459df4937" -> null
+          - volume_size           = 2 -> null
+          - volume_type           = "gp2" -> null
+        }
+Plan: 2 to add, 0 to change, 0 to destroy.
+      - enclave_options {
+          - enabled = false -> null───────────────────────────────────────────────────────────────────────────────────────────────────
+        }
+Saved the plan to: ec2_service
+      - metadata_options {
+          - http_endpoint               = "enabled" -> null to apply:
+          - http_put_response_hop_limit = 1 -> null
+          - http_tokens                 = "optional" -> null
+        }varad_ahirwadkar\Desktop\Terraform\Assignment>terraform apply ec2_service
+null_resource.my_http_service: Creating...
+      - root_block_device {ce: Provisioning with 'file'...
+          - delete_on_termination = true -> null [10s elapsed]
+          - device_name           = "/dev/sda1" -> nulllapsed]
+          - encrypted             = false -> null[30s elapsed]
+          - iops                  = 100 -> null. [40s elapsed]
+          - tags                  = {} -> null.. [50s elapsed]
+          - throughput            = 0 -> null... [1m0s elapsed]
+          - volume_id             = "vol-01d9bf307f3e99866" -> null
+          - volume_size           = 8 -> null... [1m20s elapsed]
+          - volume_type           = "gp2" -> null[1m30s elapsed]
+        }urce.my_http_service: Still creating... [1m40s elapsed]
+    }ing operation...
+
+  # aws_key_pair.generated_key will be destroyed
+  - resource "aws_key_pair" "generated_key" {s may occur.
+      - arn         = "arn:aws:ec2:ap-south-1:951333072813:key-pair/ubuntu_tf_keys" -> null
+      - fingerprint = "11:cc:21:5c:16:fc:fe:60:5e:d4:32:e0:37:b2:ff:f9" -> null
+      - id          = "ubuntu_tf_keys" -> null
+      - key_name    = "ubuntu_tf_keys" -> null
+      - key_pair_id = "key-06e9a12efa0fcfc67" -> null
+      - public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC/WbHlbH7ksNVFn7kFlTIBJEOzJTxplJTAFAvANpreE0hEOjT/2VBQSEtCmpnzg4r6rkSvQkPTjBvLOqPA8I21ump9bfwQQcuCA6wlH+3ro3NzAuZSAReddNVqqsPbRBTGVrB28hI0MIXAQbMkcUqaSXygZiEnAfbz0aIR5+q6SQvcHNplDZXaHofbyN6P/dEdcISOH9aMC9MbwQtZFeQi1fgb6Y5PKzVYzRHZ+syAoYOU+dK6o1hhM/05RUrdi8hAPp1OiA+sR/PbReEpeesfE0ku2dZw8DOvbfST/DUpQCummuCLj4brKowFl2yL7mP+NHsL1ok4Rw+M2oioWg4qvxO6FlSwA8nrceAsdln924iBT7dJ3QuZVRNyAYvBgX27wHH2CKpZGfRew58ifFlgXrm59C54UcbMYaBDM1kAizUYuhnnC5C3OXucni+DmT2J+OJsmxIK43DuA3f0R7yO4CAO7U3Kw1JxqSE1d8e5oHDKR+cE6T4GttqNNI6tL8vMDy+OyPAxg19ixD1oYBWr549YApZM+CrFAdtBbZIEva2TQEMThZJE3Nre4UswFbVGNMU6iirPWlPuWPb1zzE6BO0zNM9zDwmMI3ufS0s8mgq3s0J0UHN4m55/H7n8460LBmCasBLiStR0TINXjIaZMd3K5NbiWCElCr9xskLL9Q==" -> null
+      - tags        = {} -> null
+      - tags_all    = {} -> null
+    }or: file provisioner error
+│
+  # aws_volume_attachment.ebs_att will be destroyed
+  - resource "aws_volume_attachment" "ebs_att" {null_resource" "my_http_service":
+      - device_name = "/dev/sdh" -> null
+      - id          = "vai-4281166990" -> null
+      - instance_id = "i-04175e1453ac1236e" -> nulled (ubuntu@3.109.5.199:22): ssh: handshake failed: ssh: unable to authenticate,
+      - volume_id   = "vol-07a3d604459df4937" -> nullthods remain
+    }
+
+  # local_file.download_file will be destroyedsignment>
+  - resource "local_file" "download_file" {\Assignment>
+      - content              = <<-EOTraform\Assignment>terraform destroy -var="instance_name=ubuntu_instance_1" -var="instance_type=t2.
+            <html>2" -var="volume_name=extra_vol"
+                <body>ng state... [id=mGM]
+                    <h1>Hello World from Terraform!!!! Varad Ahirwadkar</h1>5dda4328e7bf7a532d4]
+                </body> Refreshing state... [id=8c7b3b6ead5d3d442e60d9f786bce5b1cc4eec31]
+            </html>ted_key: Refreshing state... [id=ubuntu_tf_keys]
+        EOT -> nullnstance: Refreshing state... [id=i-0a43458f24f316bcb]
+      - directory_permission = "0777" -> nullte... [id=8139479540034055993]
+      - file_permission      = "0777" -> null[id=vol-0f576118c4c4e6f1f]
+      - filename             = "out_index_file.html" -> null35602724]
+      - id                   = "76d4cfaec23d7e7f3c4411017189b9f71e80d283" -> null
+    }form used the selected providers to generate the following execution plan. Resource actions are indicated with the following
+symbols:
+  # local_file.private_key will be destroyed
+  - resource "local_file" "private_key" {
+      - content              = (sensitive) -> null
+      - directory_permission = "0777" -> null
+      - file_permission      = "0777" -> null
+      - filename             = "id_ubuntu_rsa.pem" -> null
+      - id                   = "8289eed618923d1c5862604207838953765545f4" -> null576118c4c4e6f1f" -> null
+    } - availability_zone    = "ap-south-1a" -> null
+      - encrypted            = false -> null
+  # null_resource.my_http_service will be destroyed1f" -> null
+  - resource "null_resource" "my_http_service" {
+      - id       = "8704305312783858643" -> null
+      - triggers = {         = 2 -> null
+          - "public_ip" = "13.127.220.170"
+        } -> null" = "varad-extra_vol"
+    }   } -> null
+      - tags_all             = {
+  # random_id.id will be destroyedvol"
+  - resource "random_id" "id" {
+      - b64_std     = "lrQ=" -> nullnull
+      - b64_url     = "lrQ" -> null" -> null
+      - byte_length = 2 -> null
+      - dec         = "38580" -> null
+      - hex         = "96b4" -> nullbe destroyed
+      - id          = "lrQ" -> nullnstance" {
+    } - ami                                  = "ami-0c1a7f89451184c8b" -> null
+      - arn                                  = "arn:aws:ec2:ap-south-1:951333072813:instance/i-0a43458f24f316bcb" -> null
+  # tls_private_key.tf_ubuntu_key will be destroyed -> null
+  - resource "tls_private_key" "tf_ubuntu_key" {ap-south-1a" -> null
+      - algorithm                  = "RSA" -> null> null
+      - ecdsa_curve                = "P224" -> null null
+      - id                         = "6cc7be75338af32a9e0b06d1120bc01a85c08dbb" -> null
+      - private_key_pem            = (sensitive value)> null
+      - public_key_fingerprint_md5 = "c0:4e:b0:72:cc:25:dc:0d:7c:60:fd:92:22:26:2a:43" -> null
+      - public_key_openssh         = <<-EOT  = false -> null
+            ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC/WbHlbH7ksNVFn7kFlTIBJEOzJTxplJTAFAvANpreE0hEOjT/2VBQSEtCmpnzg4r6rkSvQkPTjBvLOqPA8I21ump9bfwQQcuCA6wlH+3ro3NzAuZSAReddNVqqsPbRBTGVrB28hI0MIXAQbMkcUqaSXygZiEnAfbz0aIR5+q6SQvcHNplDZXaHofbyN6P/dEdcISOH9aMC9MbwQtZFeQi1fgb6Y5PKzVYzRHZ+syAoYOU+dK6o1hhM/05RUrdi8hAPp1OiA+sR/PbReEpeesfE0ku2dZw8DOvbfST/DUpQCummuCLj4brKowFl2yL7mP+NHsL1ok4Rw+M2oioWg4qvxO6FlSwA8nrceAsdln924iBT7dJ3QuZVRNyAYvBgX27wHH2CKpZGfRew58ifFlgXrm59C54UcbMYaBDM1kAizUYuhnnC5C3OXucni+DmT2J+OJsmxIK43DuA3f0R7yO4CAO7U3Kw1JxqSE1d8e5oHDKR+cE6T4GttqNNI6tL8vMDy+OyPAxg19ixD1oYBWr549YApZM+CrFAdtBbZIEva2TQEMThZJE3Nre4UswFbVGNMU6iirPWlPuWPb1zzE6BO0zNM9zDwmMI3ufS0s8mgq3s0J0UHN4m55/H7n8460LBmCasBLiStR0TINXjIaZMd3K5NbiWCElCr9xskLL9Q==
+        EOT -> null                          = false -> null
+      - public_key_pem             = <<-EOT  = "eni-06d34da64c1472d7b" -> null
+            -----BEGIN PUBLIC KEY-----       = "ip-172-31-34-76.ap-south-1.compute.internal" -> null
+            MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAv1mx5Wx+5LDVRZ+5BZUy
+            ASRDsyU8aZSUwBQLwDaa3hNIRDo0/9lQUEhLQpqZ84OK+q5Er0JD04wbyzqjwPCNompute.amazonaws.com" -> null
+            tbpqfW38EEHLggOsJR/t66NzcwLmUgEXnXTVaqrD20QUxlawdvISNDCFwEGzJHFK
+            mkl8oGYhJwH289GiEefqukkL3BzaZQ2V2h6H28jej/3RHXCEjh/WjAvTG8ELWRXk
+            ItX4G+mOTys1WM0R2frMgKGDlPnSuqNYYTP9OUVK3YvIQD6dTogPrEfz20XhKXnr
+            HxNJLtnWcPAzr230k/w1KUArpprgi4+G6yqMBZdsi+5j/jR7C9aJOEcPjNqIqFoO
+            Kr8TuhZUsAPJ63HgLHZZ/duIgU+3Sd0LmVUTcgGLwYF9u8Bx9giqWRn0XsOfInxZ
+            YF65ufQueFHGzGGgQzNZAIs1GLoZ5wuQtzl7nJ4vg5k9ifjibJsSCuNw7gN39Ee8
+            juAgDu1NysNScakhNXfHuaBwykfnBOk+BrbajTSOrS/LzA8vjsjwMYNfYsQ9aGAV
+            q+ePWAKWTPgqxQHbQW2SBL2tk0BDE4WSRNza3uFLMBW1RjTFOooqz1pT7lj29c8x
+            OgTtMzTPcw8JjCN7n0tLPJoKt7NCdFBzeJuefx+5/OOtCwZgmrAS4krUdEyDV4yG
+            mTHdyuTW4lghJQq/cbJCy/UCAwEAAQ==
+            -----END PUBLIC KEY-----         = {
+        EOT -> null= "ubuntu_instance_1-9863"
+      - rsa_bits                   = 4096 -> null
+    } - tenancy                              = "default" -> null
+      - vpc_security_group_ids               = [
+Plan: 0 to add, 0 to change, 9 to destroy.
+        ] -> null
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.l
+        }
+  Enter a value: yes
+      
+local_file.download_file: Destroying... [id=76d4cfaec23d7e7f3c4411017189b9f71e80d283]
+local_file.private_key: Destroying... [id=8289eed618923d1c5862604207838953765545f4]
+local_file.private_key: Destruction complete after 0s
+local_file.download_file: Destruction complete after 0s
+null_resource.my_http_service: Destroying... [id=8704305312783858643]
+null_resource.my_http_service: Provisioning with 'remote-exec'...
+null_resource.my_http_service (remote-exec): Connecting to remote host via SSH...
+null_resource.my_http_service (remote-exec):   Host: 13.127.220.170
+null_resource.my_http_service (remote-exec):   User: ubuntu
+null_resource.my_http_service (remote-exec):   Password: false
+null_resource.my_http_service (remote-exec):   Private key: true
+null_resource.my_http_service (remote-exec):   Certificate: false
+null_resource.my_http_service (remote-exec):   SSH Agent: falsenull
+null_resource.my_http_service (remote-exec):   Checking Host Key: false
+null_resource.my_http_service (remote-exec):   Target Platform: unix
+null_resource.my_http_service (remote-exec): Connected!
+null_resource.my_http_service (remote-exec): Reading package lists... 0%
+null_resource.my_http_service (remote-exec): Reading package lists... 100%
+null_resource.my_http_service (remote-exec): Reading package lists... Done
+aws_volume_attachment.ebs_att: Destroying... [id=vai-4281166990]
+null_resource.my_http_service (remote-exec): Building dependency tree... 0%
+null_resource.my_http_service (remote-exec): Building dependency tree... 0%
+null_resource.my_http_service (remote-exec): Building dependency tree... 50%
+null_resource.my_http_service (remote-exec): Building dependency tree... 50%
+null_resource.my_http_service (remote-exec): Building dependency tree
+null_resource.my_http_service (remote-exec): Reading state information... 0%
+null_resource.my_http_service (remote-exec): Reading state information... 0%
+null_resource.my_http_service (remote-exec): Reading state information... Done
+null_resource.my_http_service (remote-exec): Note, selecting 'apache2.2-common' for glob 'apache2.*'
+null_resource.my_http_service (remote-exec): Note, selecting 'apache2.2-bin' for glob 'apache2.*'
+null_resource.my_http_service (remote-exec): Package 'apache2.2-bin' is not installed, so not removed
+null_resource.my_http_service (remote-exec): Package 'apache2.2-common' is not installed, so not removed
+null_resource.my_http_service (remote-exec): 0 upgraded, 0 newly installed, 0 to remove and 76 not upgraded.
+null_resource.my_http_service: Destruction complete after 3s
+aws_volume_attachment.ebs_att: Still destroying... [id=vai-4281166990, 10s elapsed]
+aws_volume_attachment.ebs_att: Destruction complete after 11s
+aws_ebs_volume.myvolume: Destroying... [id=vol-07a3d604459df4937]
+aws_ebs_volume.myvolume: Destruction complete after 1s
+aws_instance.demo_instance: Destroying... [id=i-04175e1453ac1236e]
+aws_instance.demo_instance: Still destroying... [id=i-04175e1453ac1236e, 10s elapsed]
+aws_instance.demo_instance: Still destroying... [id=i-04175e1453ac1236e, 20s elapsed]
+aws_instance.demo_instance: Still destroying... [id=i-04175e1453ac1236e, 30s elapsed]
+aws_instance.demo_instance: Destruction complete after 33s:key-pair/ubuntu_tf_keys" -> null
+aws_key_pair.generated_key: Destroying... [id=ubuntu_tf_keys]:71:f2:c0" -> null
+random_id.id: Destroying... [id=lrQ]s" -> null
+random_id.id: Destruction complete after 0sull
+aws_key_pair.generated_key: Destruction complete after 0s
+tls_private_key.tf_ubuntu_key: Destroying... [id=6cc7be75338af32a9e0b06d1120bc01a85c08dbb]FfCFNGwmGJ6nxRbLOGLcPX4Va5UBPD0sg9KP9TdDUVGeM
+tls_private_key.tf_ubuntu_key: Destruction complete after 0sCNBQcPD0fbiOoBbu2rLrhPb7b1v0JrSQEZcSNMaZB/zehja0BPbbX+MfdYBTXM4Vmy6XfZf+R1c
+hc2SQN4fyPRF0V2/5Q9Q2LE7cMToQ8O/N45dxWDC/eBpCCmKY0/WlT6s8dsHzGpYAoXt/cLFhSd+VtLkdoJ8EsWWEfC9RZN17cq7LgDUTkDO7DPDX4hmTnaZdMWv3HLaI1T4pFL
+YlLLvgKb2YTB9RDulssQ/Dk0/+XgrEgY2ZU3t3OBLJJNGNbtUwERwW6qdpTmxwdqBXvyCDkLwENtbe7me+QeWRjhq2RF15
+tj16XrFYhPlG6gRfGzqyTCuyxnUbLc9Cy9b+/l1pIVg1Tf21H0xc7m37YYnv/fWO5Bw9VMIKHAqbnNvI4jP5EdJC4ZXEPSLE41xGH2HYlOHIchaMl5RR9VbVwWyN5po6XFAtD5v
+
+Destroy complete! Resources: 9 destroyed.
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\Assignment>

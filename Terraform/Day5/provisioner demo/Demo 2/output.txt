@@ -1,0 +1,242 @@
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\provisioner_demo>terraform apply
+tls_private_key.tf_ubuntu_key: Refreshing state... [id=a2536d7da41d787769e62c12efef72a5dc072a60]
+local_file.private_key: Refreshing state... [id=ff3fdf1a051dcb3a19f41f3517e5cad45f384af4]
+aws_key_pair.generated_key: Refreshing state... [id=tf_keyfile_demo]
+aws_instance.ubuntu_ec2: Refreshing state... [id=i-04323b093035f798a]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the last "terraform apply":
+
+  # aws_key_pair.generated_key has been changed
+  ~ resource "aws_key_pair" "generated_key" {
+        id          = "tf_keyfile_demo"
+      + tags        = {}
+        # (6 unchanged attributes hidden)
+    }
+
+Unless you have made equivalent changes to your configuration, or ignored the relevant attributes using ignore_changes, the following plan may
+include actions to undo or respond to these changes.
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # null_resource.demo_res_file5 will be created
+  + resource "null_resource" "demo_res_file5" {
+      + id       = (known after apply)
+      + triggers = {
+          + "public_ip" = "13.127.87.230"
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+null_resource.demo_res_file5: Creating...
+null_resource.demo_res_file5: Provisioning with 'file'...
+null_resource.demo_res_file5: Provisioning with 'remote-exec'...
+null_resource.demo_res_file5 (remote-exec): Connecting to remote host via SSH...
+null_resource.demo_res_file5 (remote-exec):   Host: 13.127.87.230
+null_resource.demo_res_file5 (remote-exec):   User: ubuntu
+null_resource.demo_res_file5 (remote-exec):   Password: false
+null_resource.demo_res_file5 (remote-exec):   Private key: true
+null_resource.demo_res_file5 (remote-exec):   Certificate: false
+null_resource.demo_res_file5 (remote-exec):   SSH Agent: false
+null_resource.demo_res_file5 (remote-exec):   Checking Host Key: false
+null_resource.demo_res_file5 (remote-exec):   Target Platform: unix
+null_resource.demo_res_file5 (remote-exec): Connected!
+null_resource.demo_res_file5 (remote-exec): Inside tfff
+null_resource.demo_res_file5: Creation complete after 4s [id=5161423179373760862]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+C:\Users\varad_ahirwadkar\Desktop\Terraform\provisioner_demo>terraform destroy
+tls_private_key.tf_ubuntu_key: Refreshing state... [id=a2536d7da41d787769e62c12efef72a5dc072a60]
+local_file.private_key: Refreshing state... [id=ff3fdf1a051dcb3a19f41f3517e5cad45f384af4]
+aws_key_pair.generated_key: Refreshing state... [id=tf_keyfile_demo]
+aws_instance.ubuntu_ec2: Refreshing state... [id=i-04323b093035f798a]
+null_resource.demo_res_file5: Refreshing state... [id=5161423179373760862]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_instance.ubuntu_ec2 will be destroyed
+  - resource "aws_instance" "ubuntu_ec2" {
+      - ami                                  = "ami-0c1a7f89451184c8b" -> null
+      - arn                                  = "arn:aws:ec2:ap-south-1:951333072813:instance/i-04323b093035f798a" -> null
+      - associate_public_ip_address          = true -> null
+      - availability_zone                    = "ap-south-1a" -> null
+      - cpu_core_count                       = 1 -> null
+      - cpu_threads_per_core                 = 1 -> null
+      - disable_api_termination              = false -> null
+      - ebs_optimized                        = false -> null
+      - get_password_data                    = false -> null
+      - hibernation                          = false -> null
+      - id                                   = "i-04323b093035f798a" -> null
+      - instance_initiated_shutdown_behavior = "stop" -> null
+      - instance_state                       = "running" -> null
+      - instance_type                        = "t2.micro" -> null
+      - ipv6_address_count                   = 0 -> null
+      - ipv6_addresses                       = [] -> null
+      - key_name                             = "tf_keyfile_demo" -> null
+      - monitoring                           = false -> null
+      - primary_network_interface_id         = "eni-050c4ca978ef66a5a" -> null
+      - private_dns                          = "ip-172-31-36-115.ap-south-1.compute.internal" -> null
+      - private_ip                           = "172.31.36.115" -> null
+      - public_dns                           = "ec2-13-127-87-230.ap-south-1.compute.amazonaws.com" -> null
+      - public_ip                            = "13.127.87.230" -> null
+      - secondary_private_ips                = [] -> null
+      - security_groups                      = [
+          - "default",
+        ] -> null
+      - source_dest_check                    = true -> null
+      - subnet_id                            = "subnet-27676e4f" -> null
+      - tags                                 = {
+          - "Name" = "my_ubuntu_11"
+        } -> null
+      - tags_all                             = {
+          - "Name" = "my_ubuntu_11"
+        } -> null
+      - tenancy                              = "default" -> null
+      - vpc_security_group_ids               = [
+          - "sg-18fa2a7f",
+        ] -> null
+
+      - capacity_reservation_specification {
+          - capacity_reservation_preference = "open" -> null
+        }
+
+      - credit_specification {
+          - cpu_credits = "standard" -> null
+        }
+
+      - enclave_options {
+          - enabled = false -> null
+        }
+
+      - metadata_options {
+          - http_endpoint               = "enabled" -> null
+          - http_put_response_hop_limit = 1 -> null
+          - http_tokens                 = "optional" -> null
+        }
+
+      - root_block_device {
+          - delete_on_termination = true -> null
+          - device_name           = "/dev/sda1" -> null
+          - encrypted             = false -> null
+          - iops                  = 100 -> null
+          - tags                  = {} -> null
+          - throughput            = 0 -> null
+          - volume_id             = "vol-0af0994a42acf6c80" -> null
+          - volume_size           = 8 -> null
+          - volume_type           = "gp2" -> null
+        }
+    }
+
+  # aws_key_pair.generated_key will be destroyed
+  - resource "aws_key_pair" "generated_key" {
+      - arn         = "arn:aws:ec2:ap-south-1:951333072813:key-pair/tf_keyfile_demo" -> null
+      - fingerprint = "83:6b:ab:2f:50:b7:aa:a3:c4:a2:18:5d:bb:a1:87:15" -> null
+      - id          = "tf_keyfile_demo" -> null
+      - key_name    = "tf_keyfile_demo" -> null
+      - key_pair_id = "key-04d42ea8420549de8" -> null
+      - public_key  = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQD58FrpyCXiLLv0VS8tiBgtm/z7VN5lhKtLyXSY/xOwdK2mnSDd6QWdCqN3gdoSLh1Nnvp/h3myMOWHcKRJA0mn3PBPfFpbglsDaxwnc/SRirShc+ebC0xCIiTgY4YlcTB1xLiSTqW+2uK7M+l34G3VxgYx/vu/MzyIgQyY2JszTbJHnd7q2EcwcZR7jtlSPcrHZ5lTLrFrYex+Td+l4cRPKldyOtKTxUXWVbeZxgyqOvj4g0RZ2OjzjS6wRrPzgnbsqfUXczEWsOEnFxrCQgLzVmEcPS+D4kwLBEPtOTliwdR27yrVKh6HNccf+VIRsxxCw+qrbHbo1pk5i89BxeL8vkXNO30mYW4/ZUyUVI4k01DqZ2PR3Ty/zvfCWrcgETG8zU8D0VxDwYTPYmRq/wr8Os/Jl8GxpgsxcTKboQOroEapwo9KwiSmQItidDsnZsZwaomB2qXDj5xcsAvEIy0g4mLlgn455/PZT/IFzLZb1G9FldrovEWE2uD2pVVaA4Ysb+G/x9fkGJLOu70rUvw8jtLXKLqLUmZfU44K0wAGpv5D/nbRVIkJVFBWr8dKRInJfktKDStAvHCj2nAEuMKkJqap+Lk+tGIRoCh5owRNRvrF01I3rqg+IscjON8EO9hLWJR5N6rmH9pQ+yMamBMCfNFItY5ZgwtHNJWH1ZY5+Q==" -> null
+      - tags        = {} -> null
+      - tags_all    = {} -> null
+    }
+
+  # local_file.private_key will be destroyed
+  - resource "local_file" "private_key" {
+      - content              = (sensitive) -> null
+      - directory_permission = "0777" -> null
+      - file_permission      = "0777" -> null
+      - filename             = "id_ubuntu_rsa_1.pem" -> null
+      - id                   = "ff3fdf1a051dcb3a19f41f3517e5cad45f384af4" -> null
+    }
+
+  # null_resource.demo_res_file5 will be destroyed
+  - resource "null_resource" "demo_res_file5" {
+      - id       = "5161423179373760862" -> null
+      - triggers = {
+          - "public_ip" = "13.127.87.230"
+        } -> null
+    }
+
+  # tls_private_key.tf_ubuntu_key will be destroyed
+  - resource "tls_private_key" "tf_ubuntu_key" {
+      - algorithm                  = "RSA" -> null
+      - ecdsa_curve                = "P224" -> null
+      - id                         = "a2536d7da41d787769e62c12efef72a5dc072a60" -> null
+      - private_key_pem            = (sensitive value)
+      - public_key_fingerprint_md5 = "cd:6f:a8:1e:b7:f7:1c:85:32:cc:fa:e6:ad:78:c4:1c" -> null
+      - public_key_openssh         = <<-EOT
+            ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQD58FrpyCXiLLv0VS8tiBgtm/z7VN5lhKtLyXSY/xOwdK2mnSDd6QWdCqN3gdoSLh1Nnvp/h3myMOWHcKRJA0mn3PBPfFpbglsDaxwnc/SRirShc+ebC0xCIiTgY4YlcTB1xLiSTqW+2uK7M+l34G3VxgYx/vu/MzyIgQyY2JszTbJHnd7q2EcwcZR7jtlSPcrHZ5lTLrFrYex+Td+l4cRPKldyOtKTxUXWVbeZxgyqOvj4g0RZ2OjzjS6wRrPzgnbsqfUXczEWsOEnFxrCQgLzVmEcPS+D4kwLBEPtOTliwdR27yrVKh6HNccf+VIRsxxCw+qrbHbo1pk5i89BxeL8vkXNO30mYW4/ZUyUVI4k01DqZ2PR3Ty/zvfCWrcgETG8zU8D0VxDwYTPYmRq/wr8Os/Jl8GxpgsxcTKboQOroEapwo9KwiSmQItidDsnZsZwaomB2qXDj5xcsAvEIy0g4mLlgn455/PZT/IFzLZb1G9FldrovEWE2uD2pVVaA4Ysb+G/x9fkGJLOu70rUvw8jtLXKLqLUmZfU44K0wAGpv5D/nbRVIkJVFBWr8dKRInJfktKDStAvHCj2nAEuMKkJqap+Lk+tGIRoCh5owRNRvrF01I3rqg+IscjON8EO9hLWJR5N6rmH9pQ+yMamBMCfNFItY5ZgwtHNJWH1ZY5+Q==
+        EOT -> null
+      - public_key_pem             = <<-EOT
+            -----BEGIN PUBLIC KEY-----
+            MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA+fBa6cgl4iy79FUvLYgY
+            LZv8+1TeZYSrS8l0mP8TsHStpp0g3ekFnQqjd4HaEi4dTZ76f4d5sjDlh3CkSQNJ
+            p9zwT3xaW4JbA2scJ3P0kYq0oXPnmwtMQiIk4GOGJXEwdcS4kk6lvtriuzPpd+Bt
+            1cYGMf77vzM8iIEMmNibM02yR53e6thHMHGUe47ZUj3Kx2eZUy6xa2Hsfk3fpeHE
+            TypXcjrSk8VF1lW3mcYMqjr4+INEWdjo840usEaz84J27Kn1F3MxFrDhJxcawkIC
+            81ZhHD0vg+JMCwRD7Tk5YsHUdu8q1SoehzXHH/lSEbMcQsPqq2x26NaZOYvPQcXi
+            /L5FzTt9JmFuP2VMlFSOJNNQ6mdj0d08v873wlq3IBExvM1PA9FcQ8GEz2Jkav8K
+            /DrPyZfBsaYLMXEym6EDq6BGqcKPSsIkpkCLYnQ7J2bGcGqJgdqlw4+cXLALxCMt
+            IOJi5YJ+Oefz2U/yBcy2W9RvRZXa6LxFhNrg9qVVWgOGLG/hv8fX5BiSzru9K1L8
+            PI7S1yi6i1JmX1OOCtMABqb+Q/520VSJCVRQVq/HSkSJyX5LSg0rQLxwo9pwBLjC
+            pCamqfi5PrRiEaAoeaMETUb6xdNSN66oPiLHIzjfBDvYS1iUeTeq5h/aUPsjGpgT
+            AnzRSLWOWYMLRzSVh9WWOfkCAwEAAQ==
+            -----END PUBLIC KEY-----
+        EOT -> null
+      - rsa_bits                   = 4096 -> null
+    }
+
+Plan: 0 to add, 0 to change, 5 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+null_resource.demo_res_file5: Destroying... [id=5161423179373760862]
+null_resource.demo_res_file5: Provisioning with 'remote-exec'...
+null_resource.demo_res_file5 (remote-exec): Connecting to remote host via SSH...
+null_resource.demo_res_file5 (remote-exec):   Host: 13.127.87.230
+null_resource.demo_res_file5 (remote-exec):   User: ubuntu
+null_resource.demo_res_file5 (remote-exec):   Password: false
+null_resource.demo_res_file5 (remote-exec):   Private key: true
+null_resource.demo_res_file5 (remote-exec):   Certificate: false
+null_resource.demo_res_file5 (remote-exec):   SSH Agent: false
+null_resource.demo_res_file5 (remote-exec):   Checking Host Key: false
+null_resource.demo_res_file5 (remote-exec):   Target Platform: unix
+null_resource.demo_res_file5 (remote-exec): Connected!
+null_resource.demo_res_file5 (remote-exec): How are you?
+null_resource.demo_res_file5: Destruction complete after 2s
+local_file.private_key: Destroying... [id=ff3fdf1a051dcb3a19f41f3517e5cad45f384af4]
+local_file.private_key: Destruction complete after 0s
+aws_instance.ubuntu_ec2: Destroying... [id=i-04323b093035f798a]
+aws_instance.ubuntu_ec2: Still destroying... [id=i-04323b093035f798a, 10s elapsed]
+aws_instance.ubuntu_ec2: Still destroying... [id=i-04323b093035f798a, 20s elapsed]
+aws_instance.ubuntu_ec2: Still destroying... [id=i-04323b093035f798a, 30s elapsed]
+aws_instance.ubuntu_ec2: Destruction complete after 31s
+aws_key_pair.generated_key: Destroying... [id=tf_keyfile_demo]
+aws_key_pair.generated_key: Destruction complete after 1s
+tls_private_key.tf_ubuntu_key: Destroying... [id=a2536d7da41d787769e62c12efef72a5dc072a60]
+tls_private_key.tf_ubuntu_key: Destruction complete after 0s
+
+Destroy complete! Resources: 5 destroyed.
