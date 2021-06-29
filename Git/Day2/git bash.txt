@@ -1,0 +1,369 @@
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git status
+On branch master
+nothing to commit, working tree clean
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+fe86467 (HEAD -> master) file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --source
+commit fe86467b59bcbfb269409a4b65db3a7b56537071 HEAD (HEAD -> master)
+Author: Varad Ahirwadkar <varad.ahirwadkar368@gmail.com>
+Date:   Mon Jun 28 17:53:03 2021 +0530
+
+    file: feature added
+
+commit edb4a96bab874568ac8f8cd113276cf4d1798fc8 HEAD
+Author: Varad Ahirwadkar <varad.ahirwadkar368@gmail.com>
+Date:   Mon Jun 28 17:52:36 2021 +0530
+
+    file: content added
+
+commit 2e0d93aeac59104812a72e4ac551a42bfb1999d6 HEAD
+Author: Varad Ahirwadkar <varad.ahirwadkar368@gmail.com>
+Date:   Mon Jun 28 17:51:51 2021 +0530
+
+    my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline -2
+fe86467 (HEAD -> master) file: feature added
+edb4a96 file: content added
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline --since=28/06/2021
+fe86467 (HEAD -> master) file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+==========================================================================================================
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline --until=28/06/2021
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --author="varad" --oneline
+fe86467 (HEAD -> master) file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --author="create" --oneline
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --grep="create" --oneline
+2e0d93a my_file.txt: file created
+
+===========================================================================================================
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .bin
+        .o
+        .pyc
+        data/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git status
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git add .
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git status
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        new file:   .gitignore
+
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git commit -m "git ignore created"
+[master 814078b] git ignore created
+ 1 file changed, 4 insertions(+)
+ create mode 100644 .gitignore
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+814078b (HEAD -> master) git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+===========================================================================================================
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git checkout edb4a96
+Note: switching to 'edb4a96'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at edb4a96 file: content added
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo ((edb4a96...))
+$ git checkout
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo ((edb4a96...))
+$ git checkout master
+Previous HEAD position was edb4a96 file: content added
+Switched to branch 'master'
+
+================================================================================================================
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+814078b (HEAD -> master) git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   my_file.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git commit -am "my_file.txt: change3 added"
+[master 4a590f0] my_file.txt: change3 added
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git commit -am "my_file.txt: change4 added"
+[master 13499cc] my_file.txt: change4 added
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+13499cc (HEAD -> master) my_file.txt: change4 added
+4a590f0 my_file.txt: change3 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git reset 814078b
+Unstaged changes after reset:
+M       my_file.txt
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+814078b (HEAD -> master) git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git commit -am "my_file.txt: change 3 and change4 added"
+[master 1407be0] my_file.txt: change 3 and change4 added
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+1407be0 (HEAD -> master) my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git branch my_branch
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git checkout my_branch
+Switched to branch 'my_branch'
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch)
+$ git status
+On branch my_branch
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   my_file.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch)
+$ git commit -am "my_file.txt: change 5 added"
+[my_branch 05625b7] my_file.txt: change 5 added
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch)
+$ git log --oneline
+05625b7 (HEAD -> my_branch) my_file.txt: change 5 added
+1407be0 (master) my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch)
+$ git checkout master
+Switched to branch 'master'
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+1407be0 (HEAD -> master) my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git branch --merged
+* master
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git merge my_branch
+Updating 1407be0..05625b7
+Fast-forward
+ my_file.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git branch --merged
+* master
+  my_branch
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+05625b7 (HEAD -> master, my_branch) my_file.txt: change 5 added
+1407be0 my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git branch -d my_branch
+Deleted branch my_branch (was 05625b7).
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git branch --merged
+* master
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git branch my_feature
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git commit -am "my_file.txt: change 6 added"
+[master d874516] my_file.txt: change 6 added
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+d874516 (HEAD -> master) my_file.txt: change 6 added
+05625b7 (my_feature) my_file.txt: change 5 added
+1407be0 my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git checkout my_feature
+Switched to branch 'my_feature'
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_feature)
+$ git log --oneline
+05625b7 (HEAD -> my_feature) my_file.txt: change 5 added
+1407be0 my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_feature)
+$ git commit -am "my_file.txt: change 5 edited"
+[my_feature b980c55] my_file.txt: change 5 edited
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_feature)
+$ git checkout master
+Switched to branch 'master'
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git merge my_feature
+Auto-merging my_file.txt
+CONFLICT (content): Merge conflict in my_file.txt
+Automatic merge failed; fix conflicts and then commit the result.
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master|MERGING)
+$ git merge my_feature
+error: Merging is not possible because you have unmerged files.
+hint: Fix them up in the work tree, and then use 'git add/rm <file>'
+hint: as appropriate to mark resolution and make a commit.
+fatal: Exiting because of an unresolved conflict.
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master|MERGING)
+$ git commit -am "merge conflict for change5 edit and change6"
+[master b54de92] merge conflict for change5 edit and change6
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+b54de92 (HEAD -> master) merge conflict for change5 edit and change6
+b980c55 (my_feature) my_file.txt: change 5 edited
+d874516 my_file.txt: change 6 added
+05625b7 my_file.txt: change 5 added
+1407be0 my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git branch -d my_feature
+Deleted branch my_feature (was b980c55).
+
+====================================================================================================
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --decorate --graph --oneline
+*   b54de92 (HEAD -> master) merge conflict for change5 edit and change6
+|\
+| * b980c55 my_file.txt: change 5 edited
+* | d874516 my_file.txt: change 6 added
+|/
+* 05625b7 my_file.txt: change 5 added
+* 1407be0 my_file.txt: change 3 and change4 added
+* 814078b git ignore created
+* fe86467 file: feature added
+* edb4a96 file: content added
+* 2e0d93a my_file.txt: file created
+
+
+===================================================================================================
+

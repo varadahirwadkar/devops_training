@@ -1,0 +1,190 @@
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git branch my_branch2
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git checkout my_branch2
+Switched to branch 'my_branch2'
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch2)
+$ git status
+On branch my_branch2
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   file2.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch2)
+$ git commit -am "file2 change 4"
+[my_branch2 f3f948e] file2 change 4
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch2)
+$ git log --oneline
+f3f948e (HEAD -> my_branch2) file2 change 4
+edc65e1 (origin/master, master) pull merge
+356216d file2 change3
+353abed revert
+e0efd4b file 2change2 added
+d37ef25 file2 change1
+20e6692 Create file2.txt
+282a07d change7 added
+86e02a0 change6 edit
+b54de92 merge conflict for change5 edit and change6
+b980c55 my_file.txt: change 5 edited
+d874516 my_file.txt: change 6 added
+05625b7 my_file.txt: change 5 added
+1407be0 my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch2)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git pull
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 700 bytes | 5.00 KiB/s, done.
+From https://github.com/varadahirwadkar/abc
+   edc65e1..e8ea88a  master     -> origin/master
+Updating edc65e1..e8ea88a
+Fast-forward
+ my_file.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+e8ea88a (HEAD -> master, origin/master) file change3 edit
+edc65e1 pull merge
+356216d file2 change3
+353abed revert
+e0efd4b file 2change2 added
+d37ef25 file2 change1
+20e6692 Create file2.txt
+282a07d change7 added
+86e02a0 change6 edit
+b54de92 merge conflict for change5 edit and change6
+b980c55 my_file.txt: change 5 edited
+d874516 my_file.txt: change 6 added
+05625b7 my_file.txt: change 5 added
+1407be0 my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git checkout my_branch2
+Switched to branch 'my_branch2'
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch2)
+$ git log --oneline
+f3f948e (HEAD -> my_branch2) file2 change 4
+edc65e1 pull merge
+356216d file2 change3
+353abed revert
+e0efd4b file 2change2 added
+d37ef25 file2 change1
+20e6692 Create file2.txt
+282a07d change7 added
+86e02a0 change6 edit
+b54de92 merge conflict for change5 edit and change6
+b980c55 my_file.txt: change 5 edited
+d874516 my_file.txt: change 6 added
+05625b7 my_file.txt: change 5 added
+1407be0 my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch2)
+$ git rebase master
+Successfully rebased and updated refs/heads/my_branch2.
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (my_branch2)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+e8ea88a (HEAD -> master, origin/master) file change3 edit
+edc65e1 pull merge
+356216d file2 change3
+353abed revert
+e0efd4b file 2change2 added
+d37ef25 file2 change1
+20e6692 Create file2.txt
+282a07d change7 added
+86e02a0 change6 edit
+b54de92 merge conflict for change5 edit and change6
+b980c55 my_file.txt: change 5 edited
+d874516 my_file.txt: change 6 added
+05625b7 my_file.txt: change 5 added
+1407be0 my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git rebase my_branch2
+Successfully rebased and updated refs/heads/master.
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git log --oneline
+5a7f3e0 (HEAD -> master, my_branch2) file2 change 4
+e8ea88a (origin/master) file change3 edit
+edc65e1 pull merge
+356216d file2 change3
+353abed revert
+e0efd4b file 2change2 added
+d37ef25 file2 change1
+20e6692 Create file2.txt
+282a07d change7 added
+86e02a0 change6 edit
+b54de92 merge conflict for change5 edit and change6
+b980c55 my_file.txt: change 5 edited
+d874516 my_file.txt: change 6 added
+05625b7 my_file.txt: change 5 added
+1407be0 my_file.txt: change 3 and change4 added
+814078b git ignore created
+fe86467 file: feature added
+edb4a96 file: content added
+2e0d93a my_file.txt: file created
+
+Varad@DESKTOP-NK6MK0E MINGW64 ~/Desktop/git_demo (master)
+$ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 352 bytes | 117.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/varadahirwadkar/abc.git
+   e8ea88a..5a7f3e0  master -> master
