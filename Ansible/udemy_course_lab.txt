@@ -1,0 +1,129 @@
+# basic Udemy Course Handon lab
+-
+    name: 'Update nameserver entry into resolv.conf file on localhost'
+    hosts: localhost
+    vars:
+        car_model: 'BMW M3'
+        country_name: 'USA'
+        title: 'Systems Engineer'
+    tasks:
+        -
+            name: 'Print my car model'
+            command: 'echo "My car''s model is {{car_model}}"'
+        -
+            name: 'Print my country'
+            command: 'echo "I live in the {{country_name}}"'
+        -
+            name: 'Print my title'
+            command: 'echo "I work as a {{title}}"'
+-------------------------------------------------------------------------
+
+-
+    name: 'Execute a script on all web server nodes'
+    hosts: all_servers
+    tasks:
+        -
+            service: 'name=mysql state=started'
+            when: ansible_host=="server4.company.com"
+
+---------------------------------------------------------------
+-
+    name: 'Am I an Adult or a Child?'
+    hosts: localhost
+    vars:
+        age: 25
+    tasks:
+        -
+            command: 'echo "I am a Child"'
+            when: age < 18
+        -
+            command: 'echo "I am an Adult"'
+            when: age >= 18
+---------------------------------------------------------------
+
+-
+    name: 'Add name server entry if not already entered'
+    hosts: localhost
+    tasks:
+        -
+            shell: 'cat /etc/resolv.conf'
+            register: command_output
+        -
+            shell: 'echo "nameserver 10.0.250.10" >> /etc/resolv.conf'
+            when: command_output.stdout.find('10.0.250.10') == -1
+---------------------------------------------------------------
+
+-
+    name: 'Print list of fruits'
+    hosts: localhost
+    vars:
+        fruits:
+            - Apple
+            - Banana
+            - Grapes
+            - Orange
+    tasks:
+        -
+            command: 'echo "{{item}}"'
+            with_items: '{{fruits}}'
+                
+---------------------------------------------------------
+-
+    name: 'Install required packages'
+    hosts: localhost
+    vars:
+        packages:
+            - httpd
+            - binutils
+            - glibc
+            - ksh
+            - libaio
+            - libXext
+            - gcc
+            - make
+            - sysstat
+            - unixODBC
+            - mongodb
+            - nodejs
+            - grunt
+    tasks:
+        -
+            yum: 'name={{item}} state=present'
+            with_items: '{{packages}}'
+
+--------------------------------------------------------------------------------
+-
+    name: 'Stop the web services on web server nodes'
+    hosts: web_nodes
+    tasks:
+        -
+            name: 'Stop the web services on web server nodes'
+            command: 'service httpd stop'
+-
+    name: 'Shutdown the database services on db server nodes'
+    hosts: db_nodes
+    tasks:
+        -
+            name: 'Shutdown the database services on db server nodes'
+            command: 'service mysql stop'
+-
+    name: 'Restart all servers (web and db) at once'
+    hosts: all_nodes
+    tasks:
+        -
+            name: 'Restart all servers (web and db) at once'
+            command: '/sbin/shutdown -r'
+-
+    name: 'Start the database services on db server nodes'
+    hosts: db_nodes
+    tasks:
+        -
+            name: 'Start the database services on db server nodes'
+            command: 'service mysql start'
+-
+    name: 'Start the web services on web server nodes'
+    hosts: web_nodes
+    tasks:
+        -
+            name: 'Start the web services on web server nodes'
+            command: 'service httpd start'

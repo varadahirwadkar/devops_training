@@ -1,0 +1,11 @@
+--- 
+- 
+  hosts: linux_server
+  name: "Create user"
+  become: true
+
+  tasks: 
+    - name: "Create User on ec2"
+      user: name="ansible-varad" state=present password="varad123"
+        
+   

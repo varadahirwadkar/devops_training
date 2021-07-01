@@ -1,0 +1,11 @@
+--- 
+- 
+  hosts: linux_server
+  name: "Copy file from host to remote ec2 server"
+
+  tasks: 
+    - name: "Copy file from host to remote"
+      copy:
+        src: sample.txt
+        dest: /tmp/sample.txt
+        

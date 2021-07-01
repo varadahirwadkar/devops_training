@@ -1,0 +1,8 @@
+--- 
+- 
+  hosts: localhost
+  name: "Create file and write with custom module"
+
+  tasks: 
+    - name: "Create file and write with custom module"
+      write_file: filename="sample.txt" content="Varad" 
