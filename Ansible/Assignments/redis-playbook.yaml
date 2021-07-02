@@ -1,0 +1,18 @@
+---
+- name: Install Redis
+  hosts: localhost
+  tasks:
+    - 
+      name: Ensure Redis is present
+      package: name=redis-server state=latest
+
+
+    - name: Ensure Redis is started
+      service: name=redis-server state=started enabled=yes
+      notify: Redis Restart
+
+  handlers:
+
+    - name: Redis Restart
+      debug:
+        msg: "Redis started"      

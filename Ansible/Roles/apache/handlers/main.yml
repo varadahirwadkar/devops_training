@@ -1,0 +1,5 @@
+---
+# handlers file for roles/apache
+- name: apache_status
+  debug:
+    msg: "Apache started successfully !"

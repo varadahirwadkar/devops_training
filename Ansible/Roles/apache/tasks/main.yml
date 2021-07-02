@@ -1,0 +1,11 @@
+---
+# tasks file for roles/apache
+- name: "Install apache2 service"
+  apt:
+    name: apache2
+    state: present
+- name: start http service
+  service:
+    name: apache2
+    state: started
+  notify: apache_status

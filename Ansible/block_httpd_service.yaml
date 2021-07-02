@@ -1,0 +1,12 @@
+---
+- name: Install Redis
+  hosts: localhost
+  tasks:
+    - block:
+      - yum: name {{ item }} state installed
+        with_items:
+          - httpd
+      - service: name=httpd state=started enabled=True
+      when: ansible_distribution == "Amazon"
+      become: True
+      become_user: root

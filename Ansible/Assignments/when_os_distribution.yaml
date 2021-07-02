@@ -1,0 +1,19 @@
+- name: when condition Demo
+  hosts: localhost
+  tasks:
+    - name: when demo
+      package:
+        name: apache2
+        state: present
+      when: ansible_os_family=="Redhat"
+    - name: start apahce2
+      service:
+        name: apache2
+        state: started
+      notify: user_msg
+
+  handlers:
+    - name: user_msg
+      debug:
+        msg: "apache started !"
+      

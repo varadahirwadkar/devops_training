@@ -1,0 +1,14 @@
+- name: Handler Demo
+  hosts: localhost
+  tasks:
+    - name: create user
+      user:
+        name: test_user
+        state: present
+      notify: user_msg
+
+  handlers:
+    - name: user_msg
+      debug:
+        msg: "Test user created successfully !"
+      
