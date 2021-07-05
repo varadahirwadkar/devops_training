@@ -1,0 +1,18 @@
+---
+- name: get public IP of target machine and paste it in file
+  hosts: linux_server 
+ 
+  tasks:
+    - name: get public IP
+      command: echo "{{ lookup('dig', ansible_host) }}" 
+      register: IP_addr
+    
+    - name: create an empty file
+      file:
+        path: "Ip_address.txt"
+        state: touch
+
+    - name: save ip address
+      copy: 
+        content: "{{ IP_addr.stdout }}" 
+        dest: "Ip_address.txt"

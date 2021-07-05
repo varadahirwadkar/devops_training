@@ -1,0 +1,7 @@
+- name: vault demo
+  hosts: localhost
+  vars_files: vault-pass.yml
+  tasks:
+    - name: vault demo to show password
+      debug:
+        msg: "{{ password }}"

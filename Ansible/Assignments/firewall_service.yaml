@@ -1,0 +1,10 @@
+---
+- name: disable firewalld service
+  hosts: linux_server
+  tasks:
+    - name: disable firewalld service of ec2 instance
+      service: 
+        name: firewalld
+        enabled: no
+        state: stopped
+      become: yes

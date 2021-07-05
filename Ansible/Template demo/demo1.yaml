@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  name: template demo
+  vars:
+    page_title: Demo Page
+    page_description: This is my landing page description.
+  tasks:
+    - service: 
+        name: apache2
+        enabled: yes
+        state: started
+      
+    - name: Apply Page Template
+      template:
+        src: index.html.j2
+        dest: /var/www/html/index.nginx-debian.html
+
