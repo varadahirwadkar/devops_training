@@ -1,0 +1,10 @@
+---
+-
+  name: Installing OpenShift Logging with elasticsearch and cluster-logging
+  hosts: localhost
+  roles:
+    - role: create-namespace
+    - role: operator-gp
+    - role: create-subscription
+    - role: logging-instance
+    - role: log-forwarder

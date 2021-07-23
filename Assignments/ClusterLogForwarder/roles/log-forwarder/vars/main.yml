@@ -1,0 +1,11 @@
+---
+# vars file for roles/log-forwarder
+output_name: rsyslog-cluster-1
+pipeline_name: syslog-cluster
+facility: user
+severity: informational
+secret_name: syslog-secret
+inputRefs:
+  - infrastructure
+  - application
+  - audit

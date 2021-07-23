@@ -1,0 +1,25 @@
+---
+# tasks file for roles/operator-gp
+- name: Create operator gp for elastic-search
+  openshift_raw:
+    state: present
+    definition:
+      apiVersion: operators.coreos.com/v1
+      kind: OperatorGroup
+      metadata:
+        name: openshift-operators-redhat
+        namespace: openshift-operators-redhat
+      spec: {}
+
+- name: Create operator gp for cluster-logging
+  openshift_raw:
+    state: present
+    definition:
+      apiVersion: operators.coreos.com/v1
+      kind: OperatorGroup
+      metadata:
+        name: cluster-logging
+        namespace: openshift-logging
+      spec:
+        targetNamespaces:
+        - openshift-logging

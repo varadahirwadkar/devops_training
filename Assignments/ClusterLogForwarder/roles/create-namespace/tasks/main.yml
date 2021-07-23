@@ -1,0 +1,17 @@
+---
+# tasks file for roles/create-namespace
+- name: Create namespace for elastic-search and cluster logging
+  openshift_raw:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "{{ item }}"
+      annotations:
+        openshift.io/node-selector: ""
+      labels:
+        openshift.io/cluster-monitoring: "true" 
+  loop:
+    - openshift-operators-redhat
+    - openshift-logging 

@@ -1,0 +1,32 @@
+---
+# tasks file for roles/create-subscription
+- name: subscription for elastic-search operator
+  openshift_raw:
+    state: present
+    definition:
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: Subscription
+      metadata:
+        name: "elasticsearch-operator"
+        namespace: "openshift-operators-redhat"
+      spec:
+        channel: "5.0"
+        installPlanApproval: "Automatic"
+        source: "redhat-operators-logging"
+        sourceNamespace: "openshift-marketplace"
+        name: "elasticsearch-operator"
+
+- name: subscription for cluster-logging operator
+  openshift_raw:
+    state: present
+    definition:
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: Subscription
+      metadata:
+        name: cluster-logging
+        namespace: openshift-logging
+      spec:
+        channel: "5.0"
+        name: cluster-logging
+        source: cluster-logging
+        sourceNamespace: openshift-marketplace

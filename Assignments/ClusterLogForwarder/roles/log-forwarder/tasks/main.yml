@@ -1,0 +1,33 @@
+---
+# tasks file for roles/operator-gp
+- name: Create ClusterLogForwarder
+  openshift_raw:
+    state: present
+    definition:
+      apiVersion: logging.openshift.io/v1
+      kind: ClusterLogForwarder
+      metadata:
+        name: instance
+        namespace: openshift-logging
+      spec:
+        outputs:
+        - name: "{{ output_name }}" 
+          type: syslog
+          syslog:
+            facility: "{{ facility }}"
+            rfc: RFC3164
+            payloadKey: message
+            severity: "{{ severity }}"
+          url: 'tls://IP addre:port'
+          secret:
+              name: syslog-secret
+
+        pipelines:
+        - name: "{{ pipeline_name }}"
+          inputRefs: "{{ inputRefs }}"
+          outputRefs: 
+            - "{{ output_name }}"
+            - default
+          labels:
+            syslog: cluster-1
+
